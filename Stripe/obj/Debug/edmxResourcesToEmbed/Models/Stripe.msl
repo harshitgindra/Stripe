@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StripeModelStoreContainer" CdmEntityContainer="StripeEntities">
+    <EntitySetMapping Name="Logins">
+      <EntityTypeMapping TypeName="StripeModel.Login">
+        <MappingFragment StoreEntitySet="Login">
+          <ScalarProperty Name="login_ID" ColumnName="login_ID" />
+          <ScalarProperty Name="login_username" ColumnName="login_username" />
+          <ScalarProperty Name="login_password" ColumnName="login_password" />
+          <ScalarProperty Name="login_random_string" ColumnName="login_random_string" />
+          <ScalarProperty Name="login_approvalStatus" ColumnName="login_approvalStatus" />
+          <ScalarProperty Name="User_Type_userType_ID" ColumnName="User_Type_userType_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Referee_Event_History">
+      <EntityTypeMapping TypeName="StripeModel.Referee_Event_History">
+        <MappingFragment StoreEntitySet="Referee_Event_History">
+          <ScalarProperty Name="refEventHistory_ID" ColumnName="refEventHistory_ID" />
+          <ScalarProperty Name="refEventHistory_Total_Stars_Rating" ColumnName="refEventHistory_Total_Stars_Rating" />
+          <ScalarProperty Name="Sport_Event_event_ID" ColumnName="Sport_Event_event_ID" />
+          <ScalarProperty Name="User_Profile_Referee_Profile_ID" ColumnName="User_Profile_Referee_Profile_ID" />
+          <ScalarProperty Name="User_Profile_School_Director_Profile_ID" ColumnName="User_Profile_School_Director_Profile_ID" />
+          <ScalarProperty Name="Referee_Status_refStatus_ID" ColumnName="Referee_Status_refStatus_ID" />
+          <ScalarProperty Name="Sport_Type_Referees_sptTypeRef_ID" ColumnName="Sport_Type_Referees_sptTypeRef_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Referee_Status">
+      <EntityTypeMapping TypeName="StripeModel.Referee_Status">
+        <MappingFragment StoreEntitySet="Referee_Status">
+          <ScalarProperty Name="refStatus_ID" ColumnName="refStatus_ID" />
+          <ScalarProperty Name="refStatus_Description" ColumnName="refStatus_Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Schools">
+      <EntityTypeMapping TypeName="StripeModel.School">
+        <MappingFragment StoreEntitySet="School">
+          <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
+          <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
+          <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
+          <ScalarProperty Name="sch_City" ColumnName="sch_City" />
+          <ScalarProperty Name="sch_State" ColumnName="sch_State" />
+          <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
+          <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
+          <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sport_Event">
+      <EntityTypeMapping TypeName="StripeModel.Sport_Event">
+        <MappingFragment StoreEntitySet="Sport_Event">
+          <ScalarProperty Name="event_ID" ColumnName="event_ID" />
+          <ScalarProperty Name="event_Completion" ColumnName="event_Completion" />
+          <ScalarProperty Name="event_Date" ColumnName="event_Date" />
+          <ScalarProperty Name="event_Time" ColumnName="event_Time" />
+          <ScalarProperty Name="event_Home_Team_Score" ColumnName="event_Home_Team_Score" />
+          <ScalarProperty Name="event_Away_Team_Score" ColumnName="event_Away_Team_Score" />
+          <ScalarProperty Name="event_School_Field_Name" ColumnName="event_School_Field_Name" />
+          <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+          <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+          <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sport_Name">
+      <EntityTypeMapping TypeName="StripeModel.Sport_Name">
+        <MappingFragment StoreEntitySet="Sport_Name">
+          <ScalarProperty Name="spt_Sport_Name_ID" ColumnName="spt_Sport_Name_ID" />
+          <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sport_Type_Referees">
+      <EntityTypeMapping TypeName="StripeModel.Sport_Type_Referees">
+        <MappingFragment StoreEntitySet="Sport_Type_Referees">
+          <ScalarProperty Name="sptTypeRef_ID" ColumnName="sptTypeRef_ID" />
+          <ScalarProperty Name="sptTypeRef_Referee_Title" ColumnName="sptTypeRef_Referee_Title" />
+          <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Profile">
+      <EntityTypeMapping TypeName="StripeModel.User_Profile">
+        <MappingFragment StoreEntitySet="User_Profile">
+          <ScalarProperty Name="userProfile_ID" ColumnName="userProfile_ID" />
+          <ScalarProperty Name="userProfile_First_Name" ColumnName="userProfile_First_Name" />
+          <ScalarProperty Name="userProfile_Last_Name" ColumnName="userProfile_Last_Name" />
+          <ScalarProperty Name="userProfile_Email" ColumnName="userProfile_Email" />
+          <ScalarProperty Name="userProfile_Phone" ColumnName="userProfile_Phone" />
+          <ScalarProperty Name="userProfile_Street" ColumnName="userProfile_Street" />
+          <ScalarProperty Name="userProfile_City" ColumnName="userProfile_City" />
+          <ScalarProperty Name="userProfile_State" ColumnName="userProfile_State" />
+          <ScalarProperty Name="userProfile_Zip" ColumnName="userProfile_Zip" />
+          <ScalarProperty Name="userProfile_Photo" ColumnName="userProfile_Photo" />
+          <ScalarProperty Name="userProfile_Background_Description" ColumnName="userProfile_Background_Description" />
+          <ScalarProperty Name="Login_login_ID" ColumnName="Login_login_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Type">
+      <EntityTypeMapping TypeName="StripeModel.User_Type">
+        <MappingFragment StoreEntitySet="User_Type">
+          <ScalarProperty Name="userType_ID" ColumnName="userType_ID" />
+          <ScalarProperty Name="userType_Name" ColumnName="userType_Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Profile_Referee">
+      <EntityTypeMapping TypeName="StripeModel.User_Profile_Referee">
+        <MappingFragment StoreEntitySet="User_Profile_Referee">
+          <ScalarProperty Name="ref_Game_Specialization_Type" ColumnName="ref_Game_Specialization_Type" />
+          <ScalarProperty Name="User_Profile_userProfile_ID" ColumnName="User_Profile_userProfile_ID" />
+          <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

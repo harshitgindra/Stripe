@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="85b42b5ddac94320bcfdd31a7f64be49" Name="Diagram1">
+        <EntityTypeShape EntityType="StripeModel.Login" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.Referee_Event_History" Width="1.5" PointX="7.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.Referee_Status" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.School" Width="1.5" PointX="7.5" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.Sport_Event" Width="1.5" PointX="9.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.Sport_Name" Width="1.5" PointX="7.5" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.Sport_Type_Referees" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.User_Profile" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.User_Type" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StripeModel.User_Profile_Referee" Width="1.5" PointX="10.5" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="StripeModel.Login_User_Type_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.User_Profile_Login_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Referee_Event_History_Referee_Profile_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Referee_Event_History_Referee_Status_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Referee_Event_History_School_Director_Profile_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Referee_Event_History_Sport_Event_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Referee_Event_History_Sport_Type_Referees_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Sport_Event_Away_School_ID_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Sport_Event_Home_School_ID_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.User_Profile_Director_Profile_ID_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Sport_Event_Sport_Name_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.Sport_Type_Referee_Sport_Name_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.User_Profile_Sport_Name_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="StripeModel.User_Profile_Referee_User_Profile" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

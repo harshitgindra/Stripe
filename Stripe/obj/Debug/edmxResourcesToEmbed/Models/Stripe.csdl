@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StripeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="login_ID" />
+    </Key>
+    <Property Name="login_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login_username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="login_password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="login_random_string" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+    <Property Name="login_approvalStatus" Type="Boolean" Nullable="false" />
+    <Property Name="User_Type_userType_ID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User_Type" Relationship="Self.Login_User_Type_FK" FromRole="Login" ToRole="User_Type" />
+    <NavigationProperty Name="User_Profile" Relationship="Self.User_Profile_Login_FK" FromRole="Login" ToRole="User_Profile" />
+  </EntityType>
+  <EntityType Name="Referee_Event_History">
+    <Key>
+      <PropertyRef Name="refEventHistory_ID" />
+    </Key>
+    <Property Name="refEventHistory_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="refEventHistory_Total_Stars_Rating" Type="Int32" />
+    <Property Name="Sport_Event_event_ID" Type="Int32" Nullable="false" />
+    <Property Name="User_Profile_Referee_Profile_ID" Type="Int32" Nullable="false" />
+    <Property Name="User_Profile_School_Director_Profile_ID" Type="Int32" Nullable="false" />
+    <Property Name="Referee_Status_refStatus_ID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Sport_Type_Referees_sptTypeRef_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User_Profile" Relationship="Self.Referee_Event_History_Referee_Profile_FK" FromRole="Referee_Event_History" ToRole="User_Profile" />
+    <NavigationProperty Name="Referee_Status" Relationship="Self.Referee_Event_History_Referee_Status_FK" FromRole="Referee_Event_History" ToRole="Referee_Status" />
+    <NavigationProperty Name="User_Profile1" Relationship="Self.Referee_Event_History_School_Director_Profile_FK" FromRole="Referee_Event_History" ToRole="User_Profile" />
+    <NavigationProperty Name="Sport_Event" Relationship="Self.Referee_Event_History_Sport_Event_FK" FromRole="Referee_Event_History" ToRole="Sport_Event" />
+    <NavigationProperty Name="Sport_Type_Referees" Relationship="Self.Referee_Event_History_Sport_Type_Referees_FK" FromRole="Referee_Event_History" ToRole="Sport_Type_Referees" />
+  </EntityType>
+  <EntityType Name="Referee_Status">
+    <Key>
+      <PropertyRef Name="refStatus_ID" />
+    </Key>
+    <Property Name="refStatus_ID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="refStatus_Description" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Referee_Event_History" Relationship="Self.Referee_Event_History_Referee_Status_FK" FromRole="Referee_Status" ToRole="Referee_Event_History" />
+  </EntityType>
+  <EntityType Name="School">
+    <Key>
+      <PropertyRef Name="sch_ID" />
+    </Key>
+    <Property Name="sch_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sch_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="sch_Street" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="sch_City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sch_State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sch_Zip" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="sch_Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="User_Profile_Director_Profile_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Sport_Event" Relationship="Self.Sport_Event_Away_School_ID_FK" FromRole="School" ToRole="Sport_Event" />
+    <NavigationProperty Name="Sport_Event1" Relationship="Self.Sport_Event_Home_School_ID_FK" FromRole="School" ToRole="Sport_Event" />
+    <NavigationProperty Name="User_Profile" Relationship="Self.User_Profile_Director_Profile_ID_FK" FromRole="School" ToRole="User_Profile" />
+  </EntityType>
+  <EntityType Name="Sport_Event">
+    <Key>
+      <PropertyRef Name="event_ID" />
+    </Key>
+    <Property Name="event_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="event_Completion" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+    <Property Name="event_Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="event_Time" Type="Time" Nullable="false" Precision="0" />
+    <Property Name="event_Home_Team_Score" Type="Int32" />
+    <Property Name="event_Away_Team_Score" Type="Int32" />
+    <Property Name="event_School_Field_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="School_Home_sch_ID" Type="Int32" Nullable="false" />
+    <Property Name="School_Away_sch_ID" Type="Int32" Nullable="false" />
+    <Property Name="Sport_Name_spt_Sport_Name_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Referee_Event_History" Relationship="Self.Referee_Event_History_Sport_Event_FK" FromRole="Sport_Event" ToRole="Referee_Event_History" />
+    <NavigationProperty Name="School" Relationship="Self.Sport_Event_Away_School_ID_FK" FromRole="Sport_Event" ToRole="School" />
+    <NavigationProperty Name="School1" Relationship="Self.Sport_Event_Home_School_ID_FK" FromRole="Sport_Event" ToRole="School" />
+    <NavigationProperty Name="Sport_Name" Relationship="Self.Sport_Event_Sport_Name_FK" FromRole="Sport_Event" ToRole="Sport_Name" />
+  </EntityType>
+  <EntityType Name="Sport_Name">
+    <Key>
+      <PropertyRef Name="spt_Sport_Name_ID" />
+    </Key>
+    <Property Name="spt_Sport_Name_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="spt_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Sport_Event" Relationship="Self.Sport_Event_Sport_Name_FK" FromRole="Sport_Name" ToRole="Sport_Event" />
+    <NavigationProperty Name="Sport_Type_Referees" Relationship="Self.Sport_Type_Referee_Sport_Name_FK" FromRole="Sport_Name" ToRole="Sport_Type_Referees" />
+    <NavigationProperty Name="User_Profile_Referee" Relationship="Self.User_Profile_Sport_Name_FK" FromRole="Sport_Name" ToRole="User_Profile_Referee" />
+  </EntityType>
+  <EntityType Name="Sport_Type_Referees">
+    <Key>
+      <PropertyRef Name="sptTypeRef_ID" />
+    </Key>
+    <Property Name="sptTypeRef_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sptTypeRef_Referee_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Sport_Name_spt_Sport_Name_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Referee_Event_History" Relationship="Self.Referee_Event_History_Sport_Type_Referees_FK" FromRole="Sport_Type_Referees" ToRole="Referee_Event_History" />
+    <NavigationProperty Name="Sport_Name" Relationship="Self.Sport_Type_Referee_Sport_Name_FK" FromRole="Sport_Type_Referees" ToRole="Sport_Name" />
+  </EntityType>
+  <EntityType Name="User_Profile">
+    <Key>
+      <PropertyRef Name="userProfile_ID" />
+    </Key>
+    <Property Name="userProfile_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userProfile_First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="userProfile_Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="userProfile_Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="userProfile_Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="userProfile_Street" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="userProfile_City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="userProfile_State" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="userProfile_Zip" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="userProfile_Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="userProfile_Background_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Login_login_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Login" Relationship="Self.User_Profile_Login_FK" FromRole="User_Profile" ToRole="Login" />
+    <NavigationProperty Name="Referee_Event_History" Relationship="Self.Referee_Event_History_Referee_Profile_FK" FromRole="User_Profile" ToRole="Referee_Event_History" />
+    <NavigationProperty Name="Referee_Event_History1" Relationship="Self.Referee_Event_History_School_Director_Profile_FK" FromRole="User_Profile" ToRole="Referee_Event_History" />
+    <NavigationProperty Name="Schools" Relationship="Self.User_Profile_Director_Profile_ID_FK" FromRole="User_Profile" ToRole="School" />
+    <NavigationProperty Name="User_Profile_Referee" Relationship="Self.User_Profile_Referee_User_Profile" FromRole="User_Profile" ToRole="User_Profile_Referee" />
+  </EntityType>
+  <EntityType Name="User_Type">
+    <Key>
+      <PropertyRef Name="userType_ID" />
+    </Key>
+    <Property Name="userType_ID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="userType_Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Logins" Relationship="Self.Login_User_Type_FK" FromRole="User_Type" ToRole="Login" />
+  </EntityType>
+  <EntityType Name="User_Profile_Referee">
+    <Key>
+      <PropertyRef Name="ref_Game_Specialization_Type" />
+      <PropertyRef Name="User_Profile_userProfile_ID" />
+      <PropertyRef Name="Sport_Name_spt_Sport_Name_ID" />
+    </Key>
+    <Property Name="ref_Game_Specialization_Type" Type="Int32" Nullable="false" />
+    <Property Name="User_Profile_userProfile_ID" Type="Int32" Nullable="false" />
+    <Property Name="Sport_Name_spt_Sport_Name_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Sport_Name" Relationship="Self.User_Profile_Sport_Name_FK" FromRole="User_Profile_Referee" ToRole="Sport_Name" />
+    <NavigationProperty Name="User_Profile" Relationship="Self.User_Profile_Referee_User_Profile" FromRole="User_Profile_Referee" ToRole="User_Profile" />
+  </EntityType>
+  <Association Name="Login_User_Type_FK">
+    <End Role="User_Type" Type="Self.User_Type" Multiplicity="1" />
+    <End Role="Login" Type="Self.Login" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Type">
+        <PropertyRef Name="userType_ID" />
+      </Principal>
+      <Dependent Role="Login">
+        <PropertyRef Name="User_Type_userType_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="User_Profile_Login_FK">
+    <End Role="Login" Type="Self.Login" Multiplicity="1" />
+    <End Role="User_Profile" Type="Self.User_Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Login">
+        <PropertyRef Name="login_ID" />
+      </Principal>
+      <Dependent Role="User_Profile">
+        <PropertyRef Name="Login_login_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Referee_Event_History_Referee_Profile_FK">
+    <End Role="User_Profile" Type="Self.User_Profile" Multiplicity="1" />
+    <End Role="Referee_Event_History" Type="Self.Referee_Event_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Profile">
+        <PropertyRef Name="userProfile_ID" />
+      </Principal>
+      <Dependent Role="Referee_Event_History">
+        <PropertyRef Name="User_Profile_Referee_Profile_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Referee_Event_History_Referee_Status_FK">
+    <End Role="Referee_Status" Type="Self.Referee_Status" Multiplicity="1" />
+    <End Role="Referee_Event_History" Type="Self.Referee_Event_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Referee_Status">
+        <PropertyRef Name="refStatus_ID" />
+      </Principal>
+      <Dependent Role="Referee_Event_History">
+        <PropertyRef Name="Referee_Status_refStatus_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Referee_Event_History_School_Director_Profile_FK">
+    <End Role="User_Profile" Type="Self.User_Profile" Multiplicity="1" />
+    <End Role="Referee_Event_History" Type="Self.Referee_Event_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Profile">
+        <PropertyRef Name="userProfile_ID" />
+      </Principal>
+      <Dependent Role="Referee_Event_History">
+        <PropertyRef Name="User_Profile_School_Director_Profile_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Referee_Event_History_Sport_Event_FK">
+    <End Role="Sport_Event" Type="Self.Sport_Event" Multiplicity="1" />
+    <End Role="Referee_Event_History" Type="Self.Referee_Event_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sport_Event">
+        <PropertyRef Name="event_ID" />
+      </Principal>
+      <Dependent Role="Referee_Event_History">
+        <PropertyRef Name="Sport_Event_event_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Referee_Event_History_Sport_Type_Referees_FK">
+    <End Role="Sport_Type_Referees" Type="Self.Sport_Type_Referees" Multiplicity="1" />
+    <End Role="Referee_Event_History" Type="Self.Referee_Event_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sport_Type_Referees">
+        <PropertyRef Name="sptTypeRef_ID" />
+      </Principal>
+      <Dependent Role="Referee_Event_History">
+        <PropertyRef Name="Sport_Type_Referees_sptTypeRef_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Sport_Event_Away_School_ID_FK">
+    <End Role="School" Type="Self.School" Multiplicity="1" />
+    <End Role="Sport_Event" Type="Self.Sport_Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="sch_ID" />
+      </Principal>
+      <Dependent Role="Sport_Event">
+        <PropertyRef Name="School_Away_sch_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Sport_Event_Home_School_ID_FK">
+    <End Role="School" Type="Self.School" Multiplicity="1" />
+    <End Role="Sport_Event" Type="Self.Sport_Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="sch_ID" />
+      </Principal>
+      <Dependent Role="Sport_Event">
+        <PropertyRef Name="School_Home_sch_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="User_Profile_Director_Profile_ID_FK">
+    <End Role="User_Profile" Type="Self.User_Profile" Multiplicity="1" />
+    <End Role="School" Type="Self.School" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Profile">
+        <PropertyRef Name="userProfile_ID" />
+      </Principal>
+      <Dependent Role="School">
+        <PropertyRef Name="User_Profile_Director_Profile_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Sport_Event_Sport_Name_FK">
+    <End Role="Sport_Name" Type="Self.Sport_Name" Multiplicity="1" />
+    <End Role="Sport_Event" Type="Self.Sport_Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sport_Name">
+        <PropertyRef Name="spt_Sport_Name_ID" />
+      </Principal>
+      <Dependent Role="Sport_Event">
+        <PropertyRef Name="Sport_Name_spt_Sport_Name_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Sport_Type_Referee_Sport_Name_FK">
+    <End Role="Sport_Name" Type="Self.Sport_Name" Multiplicity="1" />
+    <End Role="Sport_Type_Referees" Type="Self.Sport_Type_Referees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sport_Name">
+        <PropertyRef Name="spt_Sport_Name_ID" />
+      </Principal>
+      <Dependent Role="Sport_Type_Referees">
+        <PropertyRef Name="Sport_Name_spt_Sport_Name_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="User_Profile_Sport_Name_FK">
+    <End Role="Sport_Name" Type="Self.Sport_Name" Multiplicity="1" />
+    <End Role="User_Profile_Referee" Type="Self.User_Profile_Referee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sport_Name">
+        <PropertyRef Name="spt_Sport_Name_ID" />
+      </Principal>
+      <Dependent Role="User_Profile_Referee">
+        <PropertyRef Name="Sport_Name_spt_Sport_Name_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="User_Profile_Referee_User_Profile">
+    <End Role="User_Profile" Type="Self.User_Profile" Multiplicity="1" />
+    <End Role="User_Profile_Referee" Type="Self.User_Profile_Referee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Profile">
+        <PropertyRef Name="userProfile_ID" />
+      </Principal>
+      <Dependent Role="User_Profile_Referee">
+        <PropertyRef Name="User_Profile_userProfile_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StripeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Logins" EntityType="Self.Login" />
+    <EntitySet Name="Referee_Event_History" EntityType="Self.Referee_Event_History" />
+    <EntitySet Name="Referee_Status" EntityType="Self.Referee_Status" />
+    <EntitySet Name="Schools" EntityType="Self.School" />
+    <EntitySet Name="Sport_Event" EntityType="Self.Sport_Event" />
+    <EntitySet Name="Sport_Name" EntityType="Self.Sport_Name" />
+    <EntitySet Name="Sport_Type_Referees" EntityType="Self.Sport_Type_Referees" />
+    <EntitySet Name="User_Profile" EntityType="Self.User_Profile" />
+    <EntitySet Name="User_Type" EntityType="Self.User_Type" />
+    <EntitySet Name="User_Profile_Referee" EntityType="Self.User_Profile_Referee" />
+    <AssociationSet Name="Login_User_Type_FK" Association="Self.Login_User_Type_FK">
+      <End Role="User_Type" EntitySet="User_Type" />
+      <End Role="Login" EntitySet="Logins" />
+    </AssociationSet>
+    <AssociationSet Name="User_Profile_Login_FK" Association="Self.User_Profile_Login_FK">
+      <End Role="Login" EntitySet="Logins" />
+      <End Role="User_Profile" EntitySet="User_Profile" />
+    </AssociationSet>
+    <AssociationSet Name="Referee_Event_History_Referee_Profile_FK" Association="Self.Referee_Event_History_Referee_Profile_FK">
+      <End Role="User_Profile" EntitySet="User_Profile" />
+      <End Role="Referee_Event_History" EntitySet="Referee_Event_History" />
+    </AssociationSet>
+    <AssociationSet Name="Referee_Event_History_Referee_Status_FK" Association="Self.Referee_Event_History_Referee_Status_FK">
+      <End Role="Referee_Status" EntitySet="Referee_Status" />
+      <End Role="Referee_Event_History" EntitySet="Referee_Event_History" />
+    </AssociationSet>
+    <AssociationSet Name="Referee_Event_History_School_Director_Profile_FK" Association="Self.Referee_Event_History_School_Director_Profile_FK">
+      <End Role="User_Profile" EntitySet="User_Profile" />
+      <End Role="Referee_Event_History" EntitySet="Referee_Event_History" />
+    </AssociationSet>
+    <AssociationSet Name="Referee_Event_History_Sport_Event_FK" Association="Self.Referee_Event_History_Sport_Event_FK">
+      <End Role="Sport_Event" EntitySet="Sport_Event" />
+      <End Role="Referee_Event_History" EntitySet="Referee_Event_History" />
+    </AssociationSet>
+    <AssociationSet Name="Referee_Event_History_Sport_Type_Referees_FK" Association="Self.Referee_Event_History_Sport_Type_Referees_FK">
+      <End Role="Sport_Type_Referees" EntitySet="Sport_Type_Referees" />
+      <End Role="Referee_Event_History" EntitySet="Referee_Event_History" />
+    </AssociationSet>
+    <AssociationSet Name="Sport_Event_Away_School_ID_FK" Association="Self.Sport_Event_Away_School_ID_FK">
+      <End Role="School" EntitySet="Schools" />
+      <End Role="Sport_Event" EntitySet="Sport_Event" />
+    </AssociationSet>
+    <AssociationSet Name="Sport_Event_Home_School_ID_FK" Association="Self.Sport_Event_Home_School_ID_FK">
+      <End Role="School" EntitySet="Schools" />
+      <End Role="Sport_Event" EntitySet="Sport_Event" />
+    </AssociationSet>
+    <AssociationSet Name="User_Profile_Director_Profile_ID_FK" Association="Self.User_Profile_Director_Profile_ID_FK">
+      <End Role="User_Profile" EntitySet="User_Profile" />
+      <End Role="School" EntitySet="Schools" />
+    </AssociationSet>
+    <AssociationSet Name="Sport_Event_Sport_Name_FK" Association="Self.Sport_Event_Sport_Name_FK">
+      <End Role="Sport_Name" EntitySet="Sport_Name" />
+      <End Role="Sport_Event" EntitySet="Sport_Event" />
+    </AssociationSet>
+    <AssociationSet Name="Sport_Type_Referee_Sport_Name_FK" Association="Self.Sport_Type_Referee_Sport_Name_FK">
+      <End Role="Sport_Name" EntitySet="Sport_Name" />
+      <End Role="Sport_Type_Referees" EntitySet="Sport_Type_Referees" />
+    </AssociationSet>
+    <AssociationSet Name="User_Profile_Sport_Name_FK" Association="Self.User_Profile_Sport_Name_FK">
+      <End Role="Sport_Name" EntitySet="Sport_Name" />
+      <End Role="User_Profile_Referee" EntitySet="User_Profile_Referee" />
+    </AssociationSet>
+    <AssociationSet Name="User_Profile_Referee_User_Profile" Association="Self.User_Profile_Referee_User_Profile">
+      <End Role="User_Profile" EntitySet="User_Profile" />
+      <End Role="User_Profile_Referee" EntitySet="User_Profile_Referee" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
