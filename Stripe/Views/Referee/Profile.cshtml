@@ -1,0 +1,152 @@
+﻿@model Stripe.Models.SP_USER_PROFILE_GET_Result
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_RefereeLayout.cshtml";
+}
+
+<h2>Profile</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>User_Profile</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.Hidden("userProfile_ID", Convert.ToInt32(Session["loginid"]))
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_First_Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_First_Name)
+                @Html.ValidationMessageFor(model => model.userProfile_First_Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_Last_Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_Last_Name)
+                @Html.ValidationMessageFor(model => model.userProfile_Last_Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_Email)
+                @Html.ValidationMessageFor(model => model.userProfile_Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_Phone, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_Phone)
+                @Html.ValidationMessageFor(model => model.userProfile_Phone)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_Street, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_Street)
+                @Html.ValidationMessageFor(model => model.userProfile_Street)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_City, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_City)
+                @Html.ValidationMessageFor(model => model.userProfile_City)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_State, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_State)
+                @Html.ValidationMessageFor(model => model.userProfile_State)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_Zip, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_Zip)
+                @Html.ValidationMessageFor(model => model.userProfile_Zip)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userProfile_Background_Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.userProfile_Background_Description)
+                @Html.ValidationMessageFor(model => model.userProfile_Background_Description)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sport_Name_spt_Sport_Name_ID, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <td>
+                    @Html.DropDownList("Sport_Name_spt_Sport_Name_ID", new SelectList(ViewBag.GameList, "Value", "Text"),
+                new
+                {
+                    onchange = @"
+                getRefTypes(this.value)"
+                })
+                </td>
+                @Html.ValidationMessageFor(model => model.Sport_Name_spt_Sport_Name_ID)
+            </div>
+        </div>
+        <div id="RefDetails">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ref_Game_Specialization_Type, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <td>
+                        @Html.DropDownList("ref_Game_Specialization_Type", new SelectList(ViewBag.RefList, "Value", "Text"))
+                    </td>
+                    @Html.ValidationMessageFor(model => model.ref_Game_Specialization_Type)
+                </div>
+            </div>
+        </div>
+
+        @Html.Hidden("Login_login_ID", Convert.ToInt32(Session["loginid"]))
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    function getRefTypes(Gamecode) {
+        var tbl = $('#RefDetails');
+        if (Gamecode == "default") {
+            alert("please Select appropriate Game");
+            tbl.empty();
+        }
+        else {
+            $.ajax({
+                url: '@Url.Action("GetRefList", "Referee")',
+                data: { 'GameCode': Gamecode },
+                contentType: 'application/html ; charset:utf-8',
+                type: 'GET',
+                dataType: 'html'
+            }).success(function (result) {
+
+                tbl.empty().append(result);
+            }).error(function () {
+            });
+        }
+    }
+</script>

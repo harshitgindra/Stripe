@@ -1,0 +1,83 @@
+﻿@model Stripe.Models.Sport_Event
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_SchoolDirectorLayout.cshtml";
+}
+
+<h2>Create Event</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Sport_Event</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+     
+        <div class="form-group">
+            @Html.LabelFor(model => model.event_Completion, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.event_Completion)
+                @Html.ValidationMessageFor(model => model.event_Completion)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.event_Date, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.event_Date)
+                @Html.ValidationMessageFor(model => model.event_Date)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.event_Time, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.event_Time)
+                @Html.ValidationMessageFor(model => model.event_Time)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.event_School_Field_Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.event_School_Field_Name)
+                @Html.ValidationMessageFor(model => model.event_School_Field_Name)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.School_Away_sch_ID, "School_Away_sch_ID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("School_Away_sch_ID", new SelectList(ViewBag.SchoolList, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.School_Away_sch_ID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sport_Name_spt_Sport_Name_ID, "Sport_Name_spt_Sport_Name_ID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Sport_Name_spt_Sport_Name_ID", new SelectList(ViewBag.GameList, "Value", "Text"))
+                @Html.ValidationMessageFor(model => model.Sport_Name_spt_Sport_Name_ID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -4,15 +4,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Stripe.Models;
+using System.Security.Cryptography;
+using System.Text;
+using System.IO;
 
 namespace Stripe.Controllers
 {
     public class HomeController : Controller
     {
+
+        
         public ActionResult Index()
         {
             using (var context = new StripeEntities())
             {
+                Session["loginid"] = null;
                 ViewBag.UserTypeList = getUserTypeList(context);
             }
             return View();
@@ -35,20 +41,21 @@ namespace Stripe.Controllers
         {
             using (var context = new StripeEntities())
             {
-                var loginCheck = context.Logins.Where(check => check.login_username == login.login_username && check.login_password == login.login_password).Single();
+                var loginCheck = context.SP_LOGIN(login.login_username, login.login_password).SingleOrDefault();
                 if (loginCheck == null)
                 {
                     return View("Error");
                 }
                 else
                 {
+                    Session["loginid"] = loginCheck.login_ID;
                     switch (loginCheck.User_Type_userType_ID)
                     {
                         case "R":
-                            return RedirectToAction("Home", "Refree", new { id = loginCheck.login_ID });
+                            return RedirectToAction("Home", "Referee");
                             break;
                         case "S":
-                            return RedirectToAction("Home", "School", new { id = loginCheck.login_ID });
+                            return RedirectToAction("Home", "Director");
                             break;
                         case "A":
                             return RedirectToAction("Home", "Admin", new { id = loginCheck.login_ID });
@@ -66,11 +73,15 @@ namespace Stripe.Controllers
         {
             using (var context = new StripeEntities())
             {
+                EncryptDecrypt encrypt = new EncryptDecrypt();
+                login.login_random_string = encrypt.Encrypt(login.login_username, "r0b1nr0y");
                 context.Logins.Add(login);
                 context.SaveChanges();
                 return View();
             }
         }
+
+        
 
         public ActionResult About()
         {

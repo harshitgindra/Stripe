@@ -370,5 +370,170 @@
       <End Role="User_Profile" EntitySet="User_Profile" />
       <End Role="User_Profile_Referee" EntitySet="User_Profile_Referee" />
     </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="StripeModel.sysdiagram" />
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(StripeModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(StripeModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="SP_LOGIN" ReturnType="Collection(StripeModel.SP_LOGIN_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_USER_PROFILE_GET" ReturnType="Collection(StripeModel.SP_USER_PROFILE_GET_Result)">
+      <Parameter Name="loginid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_USER_PROFILE_INSERT">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+      <Parameter Name="firstName" Mode="In" Type="String" />
+      <Parameter Name="lastName" Mode="In" Type="String" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="String" />
+      <Parameter Name="street" Mode="In" Type="String" />
+      <Parameter Name="city" Mode="In" Type="String" />
+      <Parameter Name="state" Mode="In" Type="String" />
+      <Parameter Name="zip" Mode="In" Type="String" />
+      <Parameter Name="photo" Mode="In" Type="String" />
+      <Parameter Name="backgroud_desc" Mode="In" Type="String" />
+      <Parameter Name="loginid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_USER_PROFILE_REFEREE_INSERT">
+      <Parameter Name="gameReferee" Mode="In" Type="Int32" />
+      <Parameter Name="loginid" Mode="In" Type="Int32" />
+      <Parameter Name="gameId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_USER_PROFILE_REFEREE_UPDATE">
+      <Parameter Name="gameReferee" Mode="In" Type="Int32" />
+      <Parameter Name="loginid" Mode="In" Type="Int32" />
+      <Parameter Name="gameId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_USER_PROFILE_UPDATE">
+      <Parameter Name="userid" Mode="In" Type="Int32" />
+      <Parameter Name="firstName" Mode="In" Type="String" />
+      <Parameter Name="lastName" Mode="In" Type="String" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="String" />
+      <Parameter Name="street" Mode="In" Type="String" />
+      <Parameter Name="city" Mode="In" Type="String" />
+      <Parameter Name="state" Mode="In" Type="String" />
+      <Parameter Name="zip" Mode="In" Type="String" />
+      <Parameter Name="photo" Mode="In" Type="String" />
+      <Parameter Name="backgroud_desc" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SCHOOL_DETAILS_UPDATE">
+      <Parameter Name="schName" Mode="In" Type="String" />
+      <Parameter Name="schStreet" Mode="In" Type="String" />
+      <Parameter Name="schCity" Mode="In" Type="String" />
+      <Parameter Name="schState" Mode="In" Type="String" />
+      <Parameter Name="schZip" Mode="In" Type="String" />
+      <Parameter Name="schLogo" Mode="In" Type="String" />
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SCHOOL_DETAILS_INSERT">
+      <Parameter Name="schName" Mode="In" Type="String" />
+      <Parameter Name="schStreet" Mode="In" Type="String" />
+      <Parameter Name="schCity" Mode="In" Type="String" />
+      <Parameter Name="schState" Mode="In" Type="String" />
+      <Parameter Name="schZip" Mode="In" Type="String" />
+      <Parameter Name="schLogo" Mode="In" Type="String" />
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_LOGIN_Result">
+    <Property Type="Int32" Name="login_ID" Nullable="false" />
+    <Property Type="String" Name="login_username" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="login_password" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="login_random_string" Nullable="true" MaxLength="45" />
+    <Property Type="Boolean" Name="login_approvalStatus" Nullable="false" />
+    <Property Type="String" Name="User_Type_userType_ID" Nullable="false" MaxLength="1" />
+  </ComplexType>
+  <ComplexType Name="SP_USER_PROFILE_GET_Result">
+    <Property Type="Int32" Name="userProfile_ID" Nullable="false" />
+    <Property Type="String" Name="userProfile_First_Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="userProfile_Last_Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="userProfile_Email" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="userProfile_Phone" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="userProfile_Street" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="userProfile_City" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="userProfile_State" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="userProfile_Zip" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="userProfile_Photo" Nullable="true" />
+    <Property Type="String" Name="userProfile_Background_Description" Nullable="true" />
+    <Property Type="Int32" Name="Login_login_ID" Nullable="false" />
+    <Property Type="Int32" Name="ref_Game_Specialization_Type" Nullable="false" />
+    <Property Type="Int32" Name="User_Profile_userProfile_ID" Nullable="false" />
+    <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
+    <Property Type="Int32" Name="sch_ID" Nullable="false" />
+    <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="sch_Street" Nullable="true" />
+    <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sch_Logo" Nullable="true" />
+    <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
+    <Property Type="Int32" Name="sch_ID" Nullable="false" />
+    <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="sch_Street" Nullable="true" />
+    <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sch_Logo" Nullable="true" />
+    <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+  </ComplexType>
 </Schema>

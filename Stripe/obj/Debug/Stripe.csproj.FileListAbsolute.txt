@@ -1,4 +1,3 @@
-C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\obj\Debug\Stripe.csprojResolveAssemblyReference.cache
 C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\bin\Stripe.dll.config
 C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\bin\Stripe.dll
 C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\bin\Stripe.pdb
@@ -53,3 +52,4 @@ C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\bin\Microsoft.Owin.Security.Twit
 C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\obj\Debug\Stripe.dll
 C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\obj\Debug\Stripe.pdb
+C:\Users\Harshit\Documents\GitHub\Stripe\Stripe\obj\Debug\Stripe.csprojResolveAssemblyReference.cache

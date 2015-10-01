@@ -160,12 +160,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\DirectorController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RefereeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EncryptDecrypt.cs" />
+    <Compile Include="Models\GetGameList.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Login.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
@@ -179,6 +183,7 @@
     <Compile Include="Models\School.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SchoolClass.cs" />
     <Compile Include="Models\Sport_Event.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
@@ -186,6 +191,24 @@
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sport_Type_Referees.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_LOGIN_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_USER_PROFILE_GET_Result.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Stripe.Context.cs">
@@ -203,6 +226,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Stripe.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\UserProfileExistCheck.cs" />
     <Compile Include="Models\User_Profile.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
@@ -279,6 +307,15 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Referee\Home.cshtml" />
+    <Content Include="Views\Shared\_RefereeLayout.cshtml" />
+    <Content Include="Views\Shared\_SchoolDirectorLayout.cshtml" />
+    <Content Include="Views\Director\SchoolDetails.cshtml" />
+    <Content Include="Views\Referee\Profile.cshtml" />
+    <Content Include="Views\Referee\_RefList.cshtml" />
+    <Content Include="Views\Director\Home.cshtml" />
+    <Content Include="Views\Director\Profile.cshtml" />
+    <Content Include="Views\Event\List.cshtml" />
+    <Content Include="Views\Director\CreateEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

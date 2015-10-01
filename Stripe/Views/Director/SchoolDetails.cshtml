@@ -1,0 +1,79 @@
+﻿@model Stripe.Models.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result
+
+@{
+    ViewBag.Title = "School Details";
+    Layout = "~/Views/Shared/_SchoolDirectorLayout.cshtml";
+}
+
+<h2>School Details</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("User_Profile_Director_Profile_ID", Convert.ToInt32(Session["loginid"]))
+    <div class="form-horizontal">
+        <h4>School</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.sch_ID)
+        <input type="hidden" value="@Request.Params["id"]" name="User_Profile_Director_Profile_ID" />
+
+        <div class="form-group">
+            @Html.Label("School Name", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sch_Name)
+                @Html.ValidationMessageFor(model => model.sch_Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("School Street Address", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sch_Street)
+                @Html.ValidationMessageFor(model => model.sch_Street)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("School City", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sch_City)
+                @Html.ValidationMessageFor(model => model.sch_City)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("School State", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sch_State)
+                @Html.ValidationMessageFor(model => model.sch_State)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Zip", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sch_Zip)
+                @Html.ValidationMessageFor(model => model.sch_Zip)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.sch_Logo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sch_Logo)
+                @Html.ValidationMessageFor(model => model.sch_Logo)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

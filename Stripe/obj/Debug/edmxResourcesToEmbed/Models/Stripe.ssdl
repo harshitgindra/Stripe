@@ -73,11 +73,21 @@
     <Property Name="sptTypeRef_Referee_Title" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Sport_Name_spt_Sport_Name_ID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="User_Profile">
     <Key>
       <PropertyRef Name="userProfile_ID" />
     </Key>
-    <Property Name="userProfile_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userProfile_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="userProfile_First_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="userProfile_Last_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="userProfile_Email" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -277,6 +287,102 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="directorId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_LOGIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="nvarchar" Mode="In" />
+    <Parameter Name="password" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_SCHOOL_DETAILS_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="schName" Type="nvarchar" Mode="In" />
+    <Parameter Name="schStreet" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="schCity" Type="nvarchar" Mode="In" />
+    <Parameter Name="schState" Type="nvarchar" Mode="In" />
+    <Parameter Name="schZip" Type="nvarchar" Mode="In" />
+    <Parameter Name="schLogo" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="directorId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_SCHOOL_DETAILS_UPDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="schName" Type="nvarchar" Mode="In" />
+    <Parameter Name="schStreet" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="schCity" Type="nvarchar" Mode="In" />
+    <Parameter Name="schState" Type="nvarchar" Mode="In" />
+    <Parameter Name="schZip" Type="nvarchar" Mode="In" />
+    <Parameter Name="schLogo" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="directorId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SP_USER_PROFILE_GET" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="loginid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_USER_PROFILE_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+    <Parameter Name="firstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="lastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+    <Parameter Name="phone" Type="nvarchar" Mode="In" />
+    <Parameter Name="street" Type="nvarchar" Mode="In" />
+    <Parameter Name="city" Type="nvarchar" Mode="In" />
+    <Parameter Name="state" Type="nvarchar" Mode="In" />
+    <Parameter Name="zip" Type="nvarchar" Mode="In" />
+    <Parameter Name="photo" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="backgroud_desc" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="loginid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_USER_PROFILE_REFEREE_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="gameReferee" Type="int" Mode="In" />
+    <Parameter Name="loginid" Type="int" Mode="In" />
+    <Parameter Name="gameId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_USER_PROFILE_REFEREE_UPDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="gameReferee" Type="int" Mode="In" />
+    <Parameter Name="loginid" Type="int" Mode="In" />
+    <Parameter Name="gameId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_USER_PROFILE_UPDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userid" Type="int" Mode="In" />
+    <Parameter Name="firstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="lastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+    <Parameter Name="phone" Type="nvarchar" Mode="In" />
+    <Parameter Name="street" Type="nvarchar" Mode="In" />
+    <Parameter Name="city" Type="nvarchar" Mode="In" />
+    <Parameter Name="state" Type="nvarchar" Mode="In" />
+    <Parameter Name="zip" Type="nvarchar" Mode="In" />
+    <Parameter Name="photo" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="backgroud_desc" Type="nvarchar(max)" Mode="In" />
+  </Function>
   <EntityContainer Name="StripeModelStoreContainer">
     <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Referee_Event_History" EntityType="Self.Referee_Event_History" Schema="dbo" store:Type="Tables" />
@@ -285,6 +391,7 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
     <EntitySet Name="Sport_Event" EntityType="Self.Sport_Event" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sport_Name" EntityType="Self.Sport_Name" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sport_Type_Referees" EntityType="Self.Sport_Type_Referees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Profile" EntityType="Self.User_Profile" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Type" EntityType="Self.User_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Profile_Referee" EntityType="Self.User_Profile_Referee" store:Type="Tables" store:Schema="dbo">

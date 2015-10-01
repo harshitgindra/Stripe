@@ -1,0 +1,8 @@
+﻿<div class="form-group">
+    @Html.Label("Referee Positions", new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <td>
+            @Html.DropDownList("ref_Game_Specialization_Type", new SelectList(ViewBag.RefList, "Value", "Text"))
+        </td>       
+    </div>
+</div>

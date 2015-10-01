@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Stripe.Models.Sport_Event>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_SchoolDirectorLayout.cshtml";
+}
+
+<h2>Event List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Event")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.event_Completion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.event_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.event_Time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.event_Home_Team_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.event_Away_Team_Score)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.event_School_Field_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.School.sch_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.School1.sch_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sport_Name.spt_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.event_Completion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.event_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.event_Time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.event_Home_Team_Score)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.event_Away_Team_Score)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.event_School_Field_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.School.sch_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.School1.sch_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sport_Name.spt_Name)
+        </td>
+        <td>
+           
+        </td>
+    </tr>
+}
+
+</table>

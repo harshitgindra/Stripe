@@ -10,18 +10,9 @@
 namespace Stripe.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class User_Profile:User_Profile_Referee
+    public partial class SP_USER_PROFILE_GET_Result
     {
-        public User_Profile()
-        {
-            this.Referee_Event_History = new HashSet<Referee_Event_History>();
-            this.Referee_Event_History1 = new HashSet<Referee_Event_History>();
-            this.Schools = new HashSet<School>();
-            this.User_Profile_Referee = new HashSet<User_Profile_Referee>();
-        }
-    
         public int userProfile_ID { get; set; }
         public string userProfile_First_Name { get; set; }
         public string userProfile_Last_Name { get; set; }
@@ -34,11 +25,8 @@ namespace Stripe.Models
         public string userProfile_Photo { get; set; }
         public string userProfile_Background_Description { get; set; }
         public int Login_login_ID { get; set; }
-    
-        public virtual Login Login { get; set; }
-        public virtual ICollection<Referee_Event_History> Referee_Event_History { get; set; }
-        public virtual ICollection<Referee_Event_History> Referee_Event_History1 { get; set; }
-        public virtual ICollection<School> Schools { get; set; }
-        public virtual ICollection<User_Profile_Referee> User_Profile_Referee { get; set; }
+        public int ref_Game_Specialization_Type { get; set; }
+        public int User_Profile_userProfile_ID { get; set; }
+        public int Sport_Name_spt_Sport_Name_ID { get; set; }
     }
 }
