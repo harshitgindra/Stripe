@@ -1,0 +1,43 @@
+﻿@model Stripe.Models.SP_GET_EVENT_BY_EVENTID_Result
+@{
+    ViewBag.Title = "Apply";
+    Layout = "~/Views/Shared/_RefereeLayout.cshtml";
+}
+
+<h2>Apply for Event</h2>
+
+@using (Html.BeginForm())
+{
+    
+    @Html.HiddenFor(model=>model.event_ID)
+     @Html.HiddenFor(model=>model.School_Home_sch_ID)
+    <table>
+        <tr>
+            <td>Home Team</td>
+            <td>@Html.DisplayFor(model => model.HomeTeamName)</td>
+        </tr>
+        <tr>
+            <td>Away Team</td>
+            <td>@Html.DisplayFor(model => model.AwayTeamName)</td>
+        </tr>
+        <tr>
+            <td>Event Date</td>
+            <td>@Html.DisplayFor(model => model.event_Date)</td>
+        </tr>
+        <tr>
+            <td>Event Time</td>
+            <td>@Html.DisplayFor(model => model.event_Time)</td>
+        </tr>
+        <tr>
+            <td>Game</td>
+            <td>@Html.DisplayFor(model => model.spt_Name)</td>
+        </tr>
+        <tr>
+            <td>Referee Position</td>
+            <td>@Html.DropDownList("ref_Game_Specialization_Type", new SelectList(ViewBag.RefereeList, "Value", "Text"))</td>
+        </tr>
+    </table>
+    <input type="submit" value="Apply" />
+}
+
+

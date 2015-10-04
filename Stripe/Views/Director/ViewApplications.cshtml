@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Stripe.Models.SP_GET_APPLICATION_STATUS_BY_EVENTID_Result>
+
+@{
+    ViewBag.Title = "ViewApplications";
+    Layout = "~/Views/Shared/_RefereeLayout.cshtml";
+}
+
+<h2>View pplications</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Home School</td>
+            <td>Away School</td>
+            <td>Sport Name</td>
+            <td>Referee Type</td>
+            <td colspan="2">Referee Profile</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.HomeTeamName</td>
+                <td>@item.AwayTeamName</td>
+                <td>@item.spt_Name</td>
+                <td>@item.sptTypeRef_Referee_Title</td>
+                <td>
+                    <table>
+                        <tr>  </tr>
+                        <tr> @Html.ActionLink(item.userProfile_First_Name + " " + @item.userProfile_Last_Name, "RefereeProfile", "Director", new { id = item.userProfile_ID })</tr>
+                    </table>
+                </td>
+                <td>@item.refStatus_Description</td>
+                <td>
+                    @if (item.refStatus_ID == "A")
+                    {
+                        @Html.ActionLink("Deny", "UpdateStatus", "Application", new { refereeId = item.userProfile_ID, eventId = item.Sport_Event_event_ID, status = "D" }, null)
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Approve", "UpdateStatus", "Application", new { refereeId = item.userProfile_ID, eventId = item.Sport_Event_event_ID, status = "A" }, null)
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

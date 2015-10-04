@@ -8,12 +8,19 @@ namespace Stripe.Models
 {
     public class SchoolClass
     {
-        public static SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result getSchoolDetailsFromDirector(int id, StripeEntities context)
+        private StripeEntities context { set; get; }
+
+        public SchoolClass(StripeEntities context)
         {
-            return context.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR(id).SingleOrDefault();
+            this.context = context;
         }
 
-        public bool InsertUpdateSchoolRecords(bool insertUpdate, StripeEntities context, SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result schoolDetails)
+        public SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result getSchoolDetailsFromDirector(int id)
+        {
+            return context.SP_SCHOOL_DETAILS_FROM_DIRECTOR(id).SingleOrDefault();
+        }
+
+        public bool InsertUpdateSchoolRecords(bool insertUpdate, StripeEntities context, SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result schoolDetails)
         {
             try
             {
@@ -58,6 +65,11 @@ namespace Stripe.Models
                 RefList.Add(new SelectListItem() { Text = schoolDetails.sch_Name, Value = schoolDetails.sch_ID.ToString() });
             }
             return RefList;
+        }
+
+        public SP_GET_SCHOOL_FROM_SCHOOLID_Result GetDirectorIdFromSchoolId(int schoolId)
+        {
+            return context.SP_GET_SCHOOL_FROM_SCHOOLID(schoolId).SingleOrDefault();
         }
 
         

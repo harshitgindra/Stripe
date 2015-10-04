@@ -1,11 +1,11 @@
-﻿@model Stripe.Models.Sport_Event
+﻿@model Stripe.Models.SP_GET_EVENT_BY_EVENTID_Result
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "EditEvent";
     Layout = "~/Views/Shared/_SchoolDirectorLayout.cshtml";
 }
 
-<h2>Create Event</h2>
+<h2>EditEvent</h2>
 
 
 @using (Html.BeginForm())
@@ -16,20 +16,23 @@
         <h4>Sport_Event</h4>
         <hr />
         @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.event_ID)
+        @Html.HiddenFor(model => model.School_Home_sch_ID)
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.event_Date, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="date" name="event_Date" />
-                @Html.ValidationMessageFor(model => model.event_Date)>
+                @Html.EditorFor(model => model.event_Date)
+                @Html.ValidationMessageFor(model => model.event_Date)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.event_Time, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="time" name="event_Time" />
-                @Html.ValidationMessageFor(model => model.event_Time)>
+                @Html.EditorFor(model => model.event_Time)
+                @Html.ValidationMessageFor(model => model.event_Time)
             </div>
         </div>
 
@@ -60,7 +63,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Stripe.Models.SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result>
+
+@{
+    ViewBag.Title = "RequestStatus";
+    Layout = "~/Views/Shared/_RefereeLayout.cshtml";
+}
+
+<h2>Request Status</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Home School Name</td>
+            <td>Away School Name</td>
+            <td>Sport Name</td>
+            <td>Referee Applied for</td>
+            <td>Status</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.HomeTeamName</td>
+                <td>@item.AwayTeamName</td>
+                <td>@item.spt_Name</td>
+                <td>@item.sptTypeRef_Referee_Title</td>
+                <td>@item.refStatus_Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

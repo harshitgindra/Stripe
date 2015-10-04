@@ -11,7 +11,7 @@ namespace Stripe.Models
 {
     using System;
     
-    public partial class SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result
+    public partial class SP_GET_SCHOOL_FROM_SCHOOLID_Result
     {
         public int sch_ID { get; set; }
         public string sch_Name { get; set; }

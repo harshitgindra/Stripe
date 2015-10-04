@@ -1,0 +1,26 @@
+﻿@model Stripe.Models.SP_GET_EVENT_BY_EVENTID_Result
+@{
+    ViewBag.Title = "UpdateScores";
+    Layout = "~/Views/Shared/_SchoolDirectorLayout.cshtml";
+}
+
+<h2>Update Scores</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.event_ID)
+    <div class="row">
+        <div class="col-md-6">
+            <h2>@Model.HomeTeamName</h2>
+            @Html.EditorFor(model => model.event_Home_Team_Score)
+            <br />
+        </div>
+
+        <div class="col-md-6">
+            <h2>@Model.AwayTeamName</h2>
+            @Html.EditorFor(model => model.event_Away_Team_Score)
+            <br />
+        </div>
+    </div>
+    <input type="submit" value="Update Scores" />
+}

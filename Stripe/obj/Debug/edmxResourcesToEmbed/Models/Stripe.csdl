@@ -93,11 +93,21 @@
     <NavigationProperty Name="Referee_Event_History" Relationship="Self.Referee_Event_History_Sport_Type_Referees_FK" FromRole="Sport_Type_Referees" ToRole="Referee_Event_History" />
     <NavigationProperty Name="Sport_Name" Relationship="Self.Sport_Type_Referee_Sport_Name_FK" FromRole="Sport_Type_Referees" ToRole="Sport_Name" />
   </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
   <EntityType Name="User_Profile">
     <Key>
       <PropertyRef Name="userProfile_ID" />
     </Key>
-    <Property Name="userProfile_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userProfile_ID" Type="Int32" Nullable="false" />
     <Property Name="userProfile_First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="userProfile_Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="userProfile_Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
@@ -122,6 +132,14 @@
     <Property Name="userType_ID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
     <Property Name="userType_Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Logins" Relationship="Self.Login_User_Type_FK" FromRole="User_Type" ToRole="Login" />
+  </EntityType>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="lat" />
+      <PropertyRef Name="lon" />
+    </Key>
+    <Property Name="lat" Type="Decimal" Precision="10" Scale="7" Nullable="false" />
+    <Property Name="lon" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
   </EntityType>
   <EntityType Name="User_Profile_Referee">
     <Key>
@@ -311,8 +329,10 @@
     <EntitySet Name="Sport_Event" EntityType="Self.Sport_Event" />
     <EntitySet Name="Sport_Name" EntityType="Self.Sport_Name" />
     <EntitySet Name="Sport_Type_Referees" EntityType="Self.Sport_Type_Referees" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="User_Profile" EntityType="Self.User_Profile" />
     <EntitySet Name="User_Type" EntityType="Self.User_Type" />
+    <EntitySet Name="Locations" EntityType="Self.Location" />
     <EntitySet Name="User_Profile_Referee" EntityType="Self.User_Profile_Referee" />
     <AssociationSet Name="Login_User_Type_FK" Association="Self.Login_User_Type_FK">
       <End Role="User_Type" EntitySet="User_Type" />
@@ -370,7 +390,6 @@
       <End Role="User_Profile" EntitySet="User_Profile" />
       <End Role="User_Profile_Referee" EntitySet="User_Profile_Referee" />
     </AssociationSet>
-    <EntitySet Name="sysdiagrams" EntityType="StripeModel.sysdiagram" />
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -387,6 +406,64 @@
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_EVENT_DETAILS_DELETE">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EVENT_DETAILS_UPDATE">
+      <Parameter Name="eventDate" Mode="In" Type="DateTime" />
+      <Parameter Name="eventTime" Mode="In" Type="Time" />
+      <Parameter Name="eventFieldName" Mode="In" Type="String" />
+      <Parameter Name="sportId" Mode="In" Type="Int32" />
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EVENT_REFEREE_APPLY">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+      <Parameter Name="refereeId" Mode="In" Type="Int32" />
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+      <Parameter Name="refereeStatus" Mode="In" Type="String" />
+      <Parameter Name="refereeType" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EVENT_REFEREE_APPROVE">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+      <Parameter Name="refereeStatus" Mode="In" Type="String" />
+      <Parameter Name="refereeType" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EVENT_REFEREE_GIVE_RATINGS">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+      <Parameter Name="ratings" Mode="In" Type="Int32" />
+      <Parameter Name="refereeType" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY" ReturnType="Collection(StripeModel.SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result)">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+      <Parameter Name="refereeId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EVENT_SCORES_UPDATE">
+      <Parameter Name="homeTeamScore" Mode="In" Type="Int32" />
+      <Parameter Name="awayTeamScore" Mode="In" Type="Int32" />
+      <Parameter Name="eventCompletion" Mode="In" Type="String" />
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GET_ALL_EVENTS" ReturnType="Collection(StripeModel.SP_GET_ALL_EVENTS_Result)">
+      <Parameter Name="eventCompletion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GET_ALL_SCHOOL_DETAILS" ReturnType="Collection(StripeModel.SP_GET_ALL_SCHOOL_DETAILS_Result)" />
+    <FunctionImport Name="SP_GET_APPLICATION_STATUS_BY_EVENTID" ReturnType="Collection(StripeModel.SP_GET_APPLICATION_STATUS_BY_EVENTID_Result)">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GET_APPLICATION_STATUS_BY_REFEREEID" ReturnType="Collection(StripeModel.SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result)">
+      <Parameter Name="refereeId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GET_EVENT_BY_EVENTID" ReturnType="Collection(StripeModel.SP_GET_EVENT_BY_EVENTID_Result)">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GET_EVENT_BY_SCHOOLID" ReturnType="Collection(StripeModel.SP_GET_EVENT_BY_SCHOOLID_Result)">
+      <Parameter Name="schId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GET_SCHOOL_FROM_SCHOOLID" ReturnType="Collection(StripeModel.SP_GET_SCHOOL_FROM_SCHOOLID_Result)">
+      <Parameter Name="schoolId" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(StripeModel.sp_helpdiagramdefinition_Result)">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -395,16 +472,37 @@
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_LOGIN" ReturnType="Collection(StripeModel.SP_LOGIN_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="sp_renamediagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
-    <FunctionImport Name="SP_LOGIN" ReturnType="Collection(StripeModel.SP_LOGIN_Result)">
-      <Parameter Name="username" Mode="In" Type="String" />
-      <Parameter Name="password" Mode="In" Type="String" />
+    <FunctionImport Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_SCHOOL_DETAILS_INSERT">
+      <Parameter Name="schName" Mode="In" Type="String" />
+      <Parameter Name="schStreet" Mode="In" Type="String" />
+      <Parameter Name="schCity" Mode="In" Type="String" />
+      <Parameter Name="schState" Mode="In" Type="String" />
+      <Parameter Name="schZip" Mode="In" Type="String" />
+      <Parameter Name="schLogo" Mode="In" Type="String" />
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SCHOOL_DETAILS_UPDATE">
+      <Parameter Name="schName" Mode="In" Type="String" />
+      <Parameter Name="schStreet" Mode="In" Type="String" />
+      <Parameter Name="schCity" Mode="In" Type="String" />
+      <Parameter Name="schState" Mode="In" Type="String" />
+      <Parameter Name="schZip" Mode="In" Type="String" />
+      <Parameter Name="schLogo" Mode="In" Type="String" />
+      <Parameter Name="directorId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
     <FunctionImport Name="SP_USER_PROFILE_GET" ReturnType="Collection(StripeModel.SP_USER_PROFILE_GET_Result)">
       <Parameter Name="loginid" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -445,41 +543,112 @@
       <Parameter Name="photo" Mode="In" Type="String" />
       <Parameter Name="backgroud_desc" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
-      <Parameter Name="directorId" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="SP_SCHOOL_DETAILS_UPDATE">
-      <Parameter Name="schName" Mode="In" Type="String" />
-      <Parameter Name="schStreet" Mode="In" Type="String" />
-      <Parameter Name="schCity" Mode="In" Type="String" />
-      <Parameter Name="schState" Mode="In" Type="String" />
-      <Parameter Name="schZip" Mode="In" Type="String" />
-      <Parameter Name="schLogo" Mode="In" Type="String" />
-      <Parameter Name="directorId" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
-      <Parameter Name="directorId" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="SP_SCHOOL_DETAILS_INSERT">
-      <Parameter Name="schName" Mode="In" Type="String" />
-      <Parameter Name="schStreet" Mode="In" Type="String" />
-      <Parameter Name="schCity" Mode="In" Type="String" />
-      <Parameter Name="schState" Mode="In" Type="String" />
-      <Parameter Name="schZip" Mode="In" Type="String" />
-      <Parameter Name="schLogo" Mode="In" Type="String" />
-      <Parameter Name="directorId" Mode="In" Type="Int32" />
+    <FunctionImport Name="SP_UPDATE_REFEREE_STATUS_BY_EVENTID">
+      <Parameter Name="eventId" Mode="In" Type="Int32" />
+      <Parameter Name="refereeId" Mode="In" Type="Int32" />
+      <Parameter Name="refereeStatus" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
+  <ComplexType Name="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result">
+    <Property Type="Int32" Name="refEventHistory_ID" Nullable="false" />
+    <Property Type="Int32" Name="refEventHistory_Total_Stars_Rating" Nullable="true" />
+    <Property Type="Int32" Name="Sport_Event_event_ID" Nullable="false" />
+    <Property Type="Int32" Name="User_Profile_Referee_Profile_ID" Nullable="false" />
+    <Property Type="Int32" Name="User_Profile_School_Director_Profile_ID" Nullable="false" />
+    <Property Type="String" Name="Referee_Status_refStatus_ID" Nullable="false" MaxLength="1" />
+    <Property Type="Int32" Name="Sport_Type_Referees_sptTypeRef_ID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_ALL_EVENTS_Result">
+    <Property Type="Int32" Name="event_ID" Nullable="false" />
+    <Property Type="DateTime" Name="event_Date" Nullable="false" />
+    <Property Type="Time" Name="event_Time" Nullable="false" />
+    <Property Type="String" Name="event_School_Field_Name" Nullable="false" MaxLength="200" />
+    <Property Type="Int32" Name="event_Home_Team_Score" Nullable="true" />
+    <Property Type="Int32" Name="event_Away_Team_Score" Nullable="true" />
+    <Property Type="String" Name="event_Completion" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
+    <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+    <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+    <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_ALL_SCHOOL_DETAILS_Result">
+    <Property Type="Int32" Name="sch_ID" Nullable="false" />
+    <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="sch_Street" Nullable="true" />
+    <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sch_Logo" Nullable="true" />
+    <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_APPLICATION_STATUS_BY_EVENTID_Result">
+    <Property Type="Int32" Name="Sport_Event_event_ID" Nullable="false" />
+    <Property Type="String" Name="sptTypeRef_Referee_Title" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="userProfile_ID" Nullable="false" />
+    <Property Type="String" Name="userProfile_First_Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="userProfile_Last_Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="userProfile_Photo" Nullable="true" />
+    <Property Type="String" Name="refStatus_ID" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="refStatus_Description" Nullable="false" MaxLength="25" />
+    <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+    <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+    <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+    <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result">
+    <Property Type="String" Name="sptTypeRef_Referee_Title" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="userProfile_ID" Nullable="false" />
+    <Property Type="String" Name="userProfile_First_Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="userProfile_Last_Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="userProfile_Photo" Nullable="true" />
+    <Property Type="String" Name="refStatus_Description" Nullable="false" MaxLength="25" />
+    <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+    <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+    <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+    <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_EVENT_BY_EVENTID_Result">
+    <Property Type="Int32" Name="event_ID" Nullable="false" />
+    <Property Type="DateTime" Name="event_Date" Nullable="false" />
+    <Property Type="Time" Name="event_Time" Nullable="false" />
+    <Property Type="String" Name="event_School_Field_Name" Nullable="false" MaxLength="200" />
+    <Property Type="Int32" Name="event_Home_Team_Score" Nullable="true" />
+    <Property Type="Int32" Name="event_Away_Team_Score" Nullable="true" />
+    <Property Type="String" Name="event_Completion" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
+    <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+    <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+    <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_EVENT_BY_SCHOOLID_Result">
+    <Property Type="Int32" Name="event_ID" Nullable="false" />
+    <Property Type="DateTime" Name="event_Date" Nullable="false" />
+    <Property Type="Int32" Name="event_Home_Team_Score" Nullable="true" />
+    <Property Type="Int32" Name="event_Away_Team_Score" Nullable="true" />
+    <Property Type="String" Name="event_Completion" Nullable="true" MaxLength="1" />
+    <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
+    <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+    <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+    <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_GET_SCHOOL_FROM_SCHOOLID_Result">
+    <Property Type="Int32" Name="sch_ID" Nullable="false" />
+    <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="sch_Street" Nullable="true" />
+    <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sch_Logo" Nullable="true" />
+    <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+  </ComplexType>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
     <Property Type="Binary" Name="definition" Nullable="true" />
@@ -499,6 +668,16 @@
     <Property Type="Boolean" Name="login_approvalStatus" Nullable="false" />
     <Property Type="String" Name="User_Type_userType_ID" Nullable="false" MaxLength="1" />
   </ComplexType>
+  <ComplexType Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
+    <Property Type="Int32" Name="sch_ID" Nullable="false" />
+    <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="sch_Street" Nullable="true" />
+    <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="sch_Logo" Nullable="true" />
+    <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+  </ComplexType>
   <ComplexType Name="SP_USER_PROFILE_GET_Result">
     <Property Type="Int32" Name="userProfile_ID" Nullable="false" />
     <Property Type="String" Name="userProfile_First_Name" Nullable="false" MaxLength="100" />
@@ -515,25 +694,5 @@
     <Property Type="Int32" Name="ref_Game_Specialization_Type" Nullable="false" />
     <Property Type="Int32" Name="User_Profile_userProfile_ID" Nullable="false" />
     <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
-    <Property Type="Int32" Name="sch_ID" Nullable="false" />
-    <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
-    <Property Type="String" Name="sch_Street" Nullable="true" />
-    <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
-    <Property Type="String" Name="sch_Logo" Nullable="true" />
-    <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
-    <Property Type="Int32" Name="sch_ID" Nullable="false" />
-    <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
-    <Property Type="String" Name="sch_Street" Nullable="true" />
-    <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
-    <Property Type="String" Name="sch_Logo" Nullable="true" />
-    <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
   </ComplexType>
 </Schema>

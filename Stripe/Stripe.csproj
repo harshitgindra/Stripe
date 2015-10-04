@@ -160,6 +160,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\DirectorController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -169,8 +170,13 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EncryptDecrypt.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventReferee.cs" />
     <Compile Include="Models\GetGameList.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Login.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
@@ -193,7 +199,28 @@
     <Compile Include="Models\Sport_Type_Referees.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result.cs">
+    <Compile Include="Models\SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_ALL_EVENTS_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_ALL_SCHOOL_DETAILS_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_APPLICATION_STATUS_BY_EVENTID_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_EVENT_BY_EVENTID_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_EVENT_BY_SCHOOLID_Result.cs">
+      <DependentUpon>Stripe.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GET_SCHOOL_FROM_SCHOOLID_Result.cs">
       <DependentUpon>Stripe.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
@@ -316,9 +343,20 @@
     <Content Include="Views\Director\Profile.cshtml" />
     <Content Include="Views\Event\List.cshtml" />
     <Content Include="Views\Director\CreateEvent.cshtml" />
+    <Content Include="Views\Director\ViewEvents.cshtml" />
+    <Content Include="Views\Event\EditEvent.cshtml" />
+    <Content Include="Views\Event\UpdateScores.cshtml" />
+    <Content Include="Views\Referee\AllEvents.cshtml" />
+    <Content Include="Views\Director\MoreDetails.cshtml" />
+    <Content Include="Views\Referee\CheckAvailability.cshtml" />
+    <Content Include="Views\Referee\Apply.cshtml" />
+    <Content Include="Views\Referee\RequestStatus.cshtml" />
+    <Content Include="Views\Director\ViewApplications.cshtml" />
+    <Content Include="Views\Home\SignUpConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -25,9 +25,10 @@ namespace Stripe.Controllers
                     UserProfile userProfile = new UserProfile();
                     int id = Convert.ToInt32(Session["loginid"]);
                     var refereeProfile = userProfile.getUserProfile(id, context);
-                    ViewBag.GameList = GetGameList.getGameTypeList(context);
+                    GetGameList getGameList = new GetGameList(context);
+                    ViewBag.GameList = getGameList.getGameTypeList();
                     if (refereeProfile != null)
-                        ViewBag.RefList = GetGameList.getRefTypeList(context, refereeProfile.Sport_Name_spt_Sport_Name_ID);
+                        ViewBag.RefList = getGameList.getRefTypeList(refereeProfile.Sport_Name_spt_Sport_Name_ID);
                     return View(refereeProfile);
                 }
                 catch (Exception exception)
@@ -77,8 +78,80 @@ namespace Stripe.Controllers
         {
             using (var context = new StripeEntities())
             {
-                ViewBag.RefList = GetGameList.getRefTypeList(context, GameCode);
+                GetGameList getRefList = new GetGameList(context);
+                ViewBag.RefList = getRefList.getRefTypeList(GameCode);
                 return PartialView("_RefList");
+            }
+        }
+
+        public ActionResult AllEvents()
+        {
+            using (var context = new StripeEntities())
+            {
+                UserProfile userProfile = new UserProfile();
+                int id = Convert.ToInt32(Session["loginid"]);
+                var refereeProfile = userProfile.getUserProfile(id, context);
+                Event allEvents = new Event(context);
+                var allEventsList = allEvents.GetAllEvents("N")
+                    .Where(sptId => sptId.Sport_Name_spt_Sport_Name_ID == refereeProfile.Sport_Name_spt_Sport_Name_ID)
+                    .ToList();
+                return View(allEventsList);
+            }
+        }
+
+
+
+        public ActionResult Apply(int eventId)
+        {
+            using (var context = new StripeEntities())
+            {
+                int refereeId = Convert.ToInt32(Session["loginid"]);
+                EventReferee eventReferee = new EventReferee(context);
+                if (eventReferee.CheckRefereeEligibilityForApplication(eventId, refereeId))
+                {
+                    Event allEvents = new Event(context);
+                    var eventDetails = allEvents.GetEventByEventId(eventId).SingleOrDefault();
+                    GetGameList getRefList = new GetGameList(context);
+                    ViewBag.RefereeList = getRefList.getRefTypeList(eventDetails.Sport_Name_spt_Sport_Name_ID);
+                    return View(eventDetails);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "You've already applied for this event. Please wait for any further notification.";
+                    return View("Error");
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Apply(FormCollection formCollection)
+        {
+            using (var context = new StripeEntities())
+            {
+                int eventId = Convert.ToInt32(formCollection["event_ID"]);
+                int refereeType = Convert.ToInt32(formCollection["ref_Game_Specialization_Type"]);
+                int homeSchoolId = Convert.ToInt32(formCollection["School_Home_sch_ID"]);
+                int refereeId = Convert.ToInt32(Session["loginid"]);
+
+                SchoolClass schoolRecord = new SchoolClass(context);
+                var schoolDetails = schoolRecord.GetDirectorIdFromSchoolId(homeSchoolId);
+
+                context.SP_EVENT_REFEREE_APPLY(eventId, refereeId, schoolDetails.User_Profile_Director_Profile_ID, "P", refereeType);
+                context.SaveChanges();
+
+                return RedirectToAction("AllEvents");
+            }
+        }
+
+        public ActionResult RequestStatus()
+        {
+            using (var context = new StripeEntities())
+            {
+                int refereeId = Convert.ToInt32(Session["loginid"]);
+
+                var requestStatus = context.SP_GET_APPLICATION_STATUS_BY_REFEREEID(refereeId).ToList();
+
+                return View(requestStatus);
             }
         }
     }

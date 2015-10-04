@@ -23,7 +23,9 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Profile", "Profile", "Director")</li> 
                     <li>@Html.ActionLink("School", "SchoolDetails", "Director")</li> 
-                    <li>@Html.ActionLink("Create Event", "CreateEvent", "Director")</li>                    
+                    <li>@Html.ActionLink("Create Event", "CreateEvent", "Director")</li>  
+                    <li>@Html.ActionLink("View Events", "ViewEvents", "Director")</li>
+                    <li>@Html.ActionLink("View Pending Applications", "ViewApplications", "Director")</li> 
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

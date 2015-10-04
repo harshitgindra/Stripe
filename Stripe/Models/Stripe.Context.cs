@@ -34,10 +34,11 @@ namespace Stripe.Models
         public virtual DbSet<Sport_Event> Sport_Event { get; set; }
         public virtual DbSet<Sport_Name> Sport_Name { get; set; }
         public virtual DbSet<Sport_Type_Referees> Sport_Type_Referees { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User_Profile> User_Profile { get; set; }
         public virtual DbSet<User_Type> User_Type { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<User_Profile_Referee> User_Profile_Referee { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -94,6 +95,200 @@ namespace Stripe.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
         }
     
+        public virtual int SP_EVENT_DETAILS_DELETE(Nullable<int> eventId)
+        {
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_EVENT_DETAILS_DELETE", eventIdParameter);
+        }
+    
+        public virtual int SP_EVENT_DETAILS_UPDATE(Nullable<System.DateTime> eventDate, Nullable<System.TimeSpan> eventTime, string eventFieldName, Nullable<int> sportId, Nullable<int> eventId)
+        {
+            var eventDateParameter = eventDate.HasValue ?
+                new ObjectParameter("eventDate", eventDate) :
+                new ObjectParameter("eventDate", typeof(System.DateTime));
+    
+            var eventTimeParameter = eventTime.HasValue ?
+                new ObjectParameter("eventTime", eventTime) :
+                new ObjectParameter("eventTime", typeof(System.TimeSpan));
+    
+            var eventFieldNameParameter = eventFieldName != null ?
+                new ObjectParameter("eventFieldName", eventFieldName) :
+                new ObjectParameter("eventFieldName", typeof(string));
+    
+            var sportIdParameter = sportId.HasValue ?
+                new ObjectParameter("sportId", sportId) :
+                new ObjectParameter("sportId", typeof(int));
+    
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_EVENT_DETAILS_UPDATE", eventDateParameter, eventTimeParameter, eventFieldNameParameter, sportIdParameter, eventIdParameter);
+        }
+    
+        public virtual int SP_EVENT_REFEREE_APPLY(Nullable<int> eventId, Nullable<int> refereeId, Nullable<int> directorId, string refereeStatus, Nullable<int> refereeType)
+        {
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            var refereeIdParameter = refereeId.HasValue ?
+                new ObjectParameter("refereeId", refereeId) :
+                new ObjectParameter("refereeId", typeof(int));
+    
+            var directorIdParameter = directorId.HasValue ?
+                new ObjectParameter("directorId", directorId) :
+                new ObjectParameter("directorId", typeof(int));
+    
+            var refereeStatusParameter = refereeStatus != null ?
+                new ObjectParameter("refereeStatus", refereeStatus) :
+                new ObjectParameter("refereeStatus", typeof(string));
+    
+            var refereeTypeParameter = refereeType.HasValue ?
+                new ObjectParameter("refereeType", refereeType) :
+                new ObjectParameter("refereeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_EVENT_REFEREE_APPLY", eventIdParameter, refereeIdParameter, directorIdParameter, refereeStatusParameter, refereeTypeParameter);
+        }
+    
+        public virtual int SP_EVENT_REFEREE_APPROVE(Nullable<int> eventId, Nullable<int> directorId, string refereeStatus, Nullable<int> refereeType)
+        {
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            var directorIdParameter = directorId.HasValue ?
+                new ObjectParameter("directorId", directorId) :
+                new ObjectParameter("directorId", typeof(int));
+    
+            var refereeStatusParameter = refereeStatus != null ?
+                new ObjectParameter("refereeStatus", refereeStatus) :
+                new ObjectParameter("refereeStatus", typeof(string));
+    
+            var refereeTypeParameter = refereeType.HasValue ?
+                new ObjectParameter("refereeType", refereeType) :
+                new ObjectParameter("refereeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_EVENT_REFEREE_APPROVE", eventIdParameter, directorIdParameter, refereeStatusParameter, refereeTypeParameter);
+        }
+    
+        public virtual int SP_EVENT_REFEREE_GIVE_RATINGS(Nullable<int> eventId, Nullable<int> directorId, Nullable<int> ratings, Nullable<int> refereeType)
+        {
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            var directorIdParameter = directorId.HasValue ?
+                new ObjectParameter("directorId", directorId) :
+                new ObjectParameter("directorId", typeof(int));
+    
+            var ratingsParameter = ratings.HasValue ?
+                new ObjectParameter("ratings", ratings) :
+                new ObjectParameter("ratings", typeof(int));
+    
+            var refereeTypeParameter = refereeType.HasValue ?
+                new ObjectParameter("refereeType", refereeType) :
+                new ObjectParameter("refereeType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_EVENT_REFEREE_GIVE_RATINGS", eventIdParameter, directorIdParameter, ratingsParameter, refereeTypeParameter);
+        }
+    
+        public virtual ObjectResult<SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result> SP_EVENT_REFEREE_VERIFY_ELIGIBILITY(Nullable<int> eventId, Nullable<int> refereeId)
+        {
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            var refereeIdParameter = refereeId.HasValue ?
+                new ObjectParameter("refereeId", refereeId) :
+                new ObjectParameter("refereeId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result>("SP_EVENT_REFEREE_VERIFY_ELIGIBILITY", eventIdParameter, refereeIdParameter);
+        }
+    
+        public virtual int SP_EVENT_SCORES_UPDATE(Nullable<int> homeTeamScore, Nullable<int> awayTeamScore, string eventCompletion, Nullable<int> eventId)
+        {
+            var homeTeamScoreParameter = homeTeamScore.HasValue ?
+                new ObjectParameter("homeTeamScore", homeTeamScore) :
+                new ObjectParameter("homeTeamScore", typeof(int));
+    
+            var awayTeamScoreParameter = awayTeamScore.HasValue ?
+                new ObjectParameter("awayTeamScore", awayTeamScore) :
+                new ObjectParameter("awayTeamScore", typeof(int));
+    
+            var eventCompletionParameter = eventCompletion != null ?
+                new ObjectParameter("eventCompletion", eventCompletion) :
+                new ObjectParameter("eventCompletion", typeof(string));
+    
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_EVENT_SCORES_UPDATE", homeTeamScoreParameter, awayTeamScoreParameter, eventCompletionParameter, eventIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_ALL_EVENTS_Result> SP_GET_ALL_EVENTS(string eventCompletion)
+        {
+            var eventCompletionParameter = eventCompletion != null ?
+                new ObjectParameter("eventCompletion", eventCompletion) :
+                new ObjectParameter("eventCompletion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_ALL_EVENTS_Result>("SP_GET_ALL_EVENTS", eventCompletionParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_ALL_SCHOOL_DETAILS_Result> SP_GET_ALL_SCHOOL_DETAILS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_ALL_SCHOOL_DETAILS_Result>("SP_GET_ALL_SCHOOL_DETAILS");
+        }
+    
+        public virtual ObjectResult<SP_GET_APPLICATION_STATUS_BY_EVENTID_Result> SP_GET_APPLICATION_STATUS_BY_EVENTID(Nullable<int> eventId)
+        {
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_APPLICATION_STATUS_BY_EVENTID_Result>("SP_GET_APPLICATION_STATUS_BY_EVENTID", eventIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result> SP_GET_APPLICATION_STATUS_BY_REFEREEID(Nullable<int> refereeId)
+        {
+            var refereeIdParameter = refereeId.HasValue ?
+                new ObjectParameter("refereeId", refereeId) :
+                new ObjectParameter("refereeId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result>("SP_GET_APPLICATION_STATUS_BY_REFEREEID", refereeIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_EVENT_BY_EVENTID_Result> SP_GET_EVENT_BY_EVENTID(Nullable<int> eventId)
+        {
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_EVENT_BY_EVENTID_Result>("SP_GET_EVENT_BY_EVENTID", eventIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_EVENT_BY_SCHOOLID_Result> SP_GET_EVENT_BY_SCHOOLID(Nullable<int> schId)
+        {
+            var schIdParameter = schId.HasValue ?
+                new ObjectParameter("schId", schId) :
+                new ObjectParameter("schId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_EVENT_BY_SCHOOLID_Result>("SP_GET_EVENT_BY_SCHOOLID", schIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_GET_SCHOOL_FROM_SCHOOLID_Result> SP_GET_SCHOOL_FROM_SCHOOLID(Nullable<int> schoolId)
+        {
+            var schoolIdParameter = schoolId.HasValue ?
+                new ObjectParameter("schoolId", schoolId) :
+                new ObjectParameter("schoolId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_SCHOOL_FROM_SCHOOLID_Result>("SP_GET_SCHOOL_FROM_SCHOOLID", schoolIdParameter);
+        }
+    
         public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
         {
             var diagramnameParameter = diagramname != null ?
@@ -120,6 +315,19 @@ namespace Stripe.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
         }
     
+        public virtual ObjectResult<SP_LOGIN_Result> SP_LOGIN(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_LOGIN_Result>("SP_LOGIN", usernameParameter, passwordParameter);
+        }
+    
         public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
         {
             var diagramnameParameter = diagramname != null ?
@@ -137,22 +345,84 @@ namespace Stripe.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
         }
     
+        public virtual ObjectResult<SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result> SP_SCHOOL_DETAILS_FROM_DIRECTOR(Nullable<int> directorId)
+        {
+            var directorIdParameter = directorId.HasValue ?
+                new ObjectParameter("directorId", directorId) :
+                new ObjectParameter("directorId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result>("SP_SCHOOL_DETAILS_FROM_DIRECTOR", directorIdParameter);
+        }
+    
+        public virtual int SP_SCHOOL_DETAILS_INSERT(string schName, string schStreet, string schCity, string schState, string schZip, string schLogo, Nullable<int> directorId)
+        {
+            var schNameParameter = schName != null ?
+                new ObjectParameter("schName", schName) :
+                new ObjectParameter("schName", typeof(string));
+    
+            var schStreetParameter = schStreet != null ?
+                new ObjectParameter("schStreet", schStreet) :
+                new ObjectParameter("schStreet", typeof(string));
+    
+            var schCityParameter = schCity != null ?
+                new ObjectParameter("schCity", schCity) :
+                new ObjectParameter("schCity", typeof(string));
+    
+            var schStateParameter = schState != null ?
+                new ObjectParameter("schState", schState) :
+                new ObjectParameter("schState", typeof(string));
+    
+            var schZipParameter = schZip != null ?
+                new ObjectParameter("schZip", schZip) :
+                new ObjectParameter("schZip", typeof(string));
+    
+            var schLogoParameter = schLogo != null ?
+                new ObjectParameter("schLogo", schLogo) :
+                new ObjectParameter("schLogo", typeof(string));
+    
+            var directorIdParameter = directorId.HasValue ?
+                new ObjectParameter("directorId", directorId) :
+                new ObjectParameter("directorId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SCHOOL_DETAILS_INSERT", schNameParameter, schStreetParameter, schCityParameter, schStateParameter, schZipParameter, schLogoParameter, directorIdParameter);
+        }
+    
+        public virtual int SP_SCHOOL_DETAILS_UPDATE(string schName, string schStreet, string schCity, string schState, string schZip, string schLogo, Nullable<int> directorId)
+        {
+            var schNameParameter = schName != null ?
+                new ObjectParameter("schName", schName) :
+                new ObjectParameter("schName", typeof(string));
+    
+            var schStreetParameter = schStreet != null ?
+                new ObjectParameter("schStreet", schStreet) :
+                new ObjectParameter("schStreet", typeof(string));
+    
+            var schCityParameter = schCity != null ?
+                new ObjectParameter("schCity", schCity) :
+                new ObjectParameter("schCity", typeof(string));
+    
+            var schStateParameter = schState != null ?
+                new ObjectParameter("schState", schState) :
+                new ObjectParameter("schState", typeof(string));
+    
+            var schZipParameter = schZip != null ?
+                new ObjectParameter("schZip", schZip) :
+                new ObjectParameter("schZip", typeof(string));
+    
+            var schLogoParameter = schLogo != null ?
+                new ObjectParameter("schLogo", schLogo) :
+                new ObjectParameter("schLogo", typeof(string));
+    
+            var directorIdParameter = directorId.HasValue ?
+                new ObjectParameter("directorId", directorId) :
+                new ObjectParameter("directorId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SCHOOL_DETAILS_UPDATE", schNameParameter, schStreetParameter, schCityParameter, schStateParameter, schZipParameter, schLogoParameter, directorIdParameter);
+        }
+    
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
-        public virtual ObjectResult<SP_LOGIN_Result> SP_LOGIN(string username, string password)
-        {
-            var usernameParameter = username != null ?
-                new ObjectParameter("username", username) :
-                new ObjectParameter("username", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_LOGIN_Result>("SP_LOGIN", usernameParameter, passwordParameter);
         }
     
         public virtual ObjectResult<SP_USER_PROFILE_GET_Result> SP_USER_PROFILE_GET(Nullable<int> loginid)
@@ -300,88 +570,21 @@ namespace Stripe.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_USER_PROFILE_UPDATE", useridParameter, firstNameParameter, lastNameParameter, emailParameter, phoneParameter, streetParameter, cityParameter, stateParameter, zipParameter, photoParameter, backgroud_descParameter);
         }
     
-        public virtual ObjectResult<SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result> SP_SCHOOL_DETAILS_FROM_DIRECTOR(Nullable<int> directorId)
+        public virtual int SP_UPDATE_REFEREE_STATUS_BY_EVENTID(Nullable<int> eventId, Nullable<int> refereeId, string refereeStatus)
         {
-            var directorIdParameter = directorId.HasValue ?
-                new ObjectParameter("directorId", directorId) :
-                new ObjectParameter("directorId", typeof(int));
+            var eventIdParameter = eventId.HasValue ?
+                new ObjectParameter("eventId", eventId) :
+                new ObjectParameter("eventId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result>("SP_SCHOOL_DETAILS_FROM_DIRECTOR", directorIdParameter);
-        }
+            var refereeIdParameter = refereeId.HasValue ?
+                new ObjectParameter("refereeId", refereeId) :
+                new ObjectParameter("refereeId", typeof(int));
     
-        public virtual int SP_SCHOOL_DETAILS_UPDATE(string schName, string schStreet, string schCity, string schState, string schZip, string schLogo, Nullable<int> directorId)
-        {
-            var schNameParameter = schName != null ?
-                new ObjectParameter("schName", schName) :
-                new ObjectParameter("schName", typeof(string));
+            var refereeStatusParameter = refereeStatus != null ?
+                new ObjectParameter("refereeStatus", refereeStatus) :
+                new ObjectParameter("refereeStatus", typeof(string));
     
-            var schStreetParameter = schStreet != null ?
-                new ObjectParameter("schStreet", schStreet) :
-                new ObjectParameter("schStreet", typeof(string));
-    
-            var schCityParameter = schCity != null ?
-                new ObjectParameter("schCity", schCity) :
-                new ObjectParameter("schCity", typeof(string));
-    
-            var schStateParameter = schState != null ?
-                new ObjectParameter("schState", schState) :
-                new ObjectParameter("schState", typeof(string));
-    
-            var schZipParameter = schZip != null ?
-                new ObjectParameter("schZip", schZip) :
-                new ObjectParameter("schZip", typeof(string));
-    
-            var schLogoParameter = schLogo != null ?
-                new ObjectParameter("schLogo", schLogo) :
-                new ObjectParameter("schLogo", typeof(string));
-    
-            var directorIdParameter = directorId.HasValue ?
-                new ObjectParameter("directorId", directorId) :
-                new ObjectParameter("directorId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SCHOOL_DETAILS_UPDATE", schNameParameter, schStreetParameter, schCityParameter, schStateParameter, schZipParameter, schLogoParameter, directorIdParameter);
-        }
-    
-        public virtual ObjectResult<SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result> SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR(Nullable<int> directorId)
-        {
-            var directorIdParameter = directorId.HasValue ?
-                new ObjectParameter("directorId", directorId) :
-                new ObjectParameter("directorId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result>("SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR", directorIdParameter);
-        }
-    
-        public virtual int SP_SCHOOL_DETAILS_INSERT(string schName, string schStreet, string schCity, string schState, string schZip, string schLogo, Nullable<int> directorId)
-        {
-            var schNameParameter = schName != null ?
-                new ObjectParameter("schName", schName) :
-                new ObjectParameter("schName", typeof(string));
-    
-            var schStreetParameter = schStreet != null ?
-                new ObjectParameter("schStreet", schStreet) :
-                new ObjectParameter("schStreet", typeof(string));
-    
-            var schCityParameter = schCity != null ?
-                new ObjectParameter("schCity", schCity) :
-                new ObjectParameter("schCity", typeof(string));
-    
-            var schStateParameter = schState != null ?
-                new ObjectParameter("schState", schState) :
-                new ObjectParameter("schState", typeof(string));
-    
-            var schZipParameter = schZip != null ?
-                new ObjectParameter("schZip", schZip) :
-                new ObjectParameter("schZip", typeof(string));
-    
-            var schLogoParameter = schLogo != null ?
-                new ObjectParameter("schLogo", schLogo) :
-                new ObjectParameter("schLogo", typeof(string));
-    
-            var directorIdParameter = directorId.HasValue ?
-                new ObjectParameter("directorId", directorId) :
-                new ObjectParameter("directorId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_SCHOOL_DETAILS_INSERT", schNameParameter, schStreetParameter, schCityParameter, schStateParameter, schZipParameter, schLogoParameter, directorIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UPDATE_REFEREE_STATUS_BY_EVENTID", eventIdParameter, refereeIdParameter, refereeStatusParameter);
         }
     }
 }

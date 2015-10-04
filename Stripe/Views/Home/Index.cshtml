@@ -18,7 +18,7 @@
                 Password
             </td>
             <td>
-                @Html.TextBox("login_password")
+                @Html.Password("login_password")
             </td>
         </tr>
         <tr>
@@ -29,35 +29,33 @@
     </table>
 }
 
-
-@using (Html.BeginForm("SignUp", "Home"))
-{
-    <table>
-        <tr>
-            <td>
-                Username
-            </td>
-            <td>@Html.TextBox("login_username")</td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td>@Html.TextBox("login_password")</td>
-        </tr>
-        <tr>
-            <td>Confirm Password</td>
-            <td>@Html.TextBox("login_confirmPassword")</td>
-        </tr>
-        <tr>
-            <td>User Type</td>
-            <td>@Html.DropDownList("User_Type_userType_ID", new SelectList(ViewBag.UserTypeList, "Value", "Text"))</td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Sign Up" onclick="onSignUp(this);"/></td>
-        </tr>
-    </table>
-}
-
-
-<script>
-    
-</script>
+<div class="row">
+    <div class="col-md-offset-4">
+        @using (Html.BeginForm("SignUp", "Home"))
+        {
+            <table>
+                <tr>
+                    <td>
+                        Username
+                    </td>
+                    <td>@Html.TextBox("login_username")</td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>@Html.Password("login_password")</td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td>@Html.Password("login_confirmPassword")</td>
+                </tr>
+                <tr>
+                    <td>User Type</td>
+                    <td>@Html.DropDownList("User_Type_userType_ID", new SelectList(ViewBag.UserTypeList, "Value", "Text"))</td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Sign Up" onclick="onSignUp(this);" /></td>
+                </tr>
+            </table>
+        }
+    </div>
+</div>

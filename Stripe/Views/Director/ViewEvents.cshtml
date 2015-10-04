@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Stripe.Models.SP_GET_EVENT_BY_SCHOOLID_Result>
+@{
+    ViewBag.Title = "ViewEvents";
+    Layout = "~/Views/Shared/_SchoolDirectorLayout.cshtml";
+}
+
+<h2>ViewEvents</h2>
+<table class="table-bordered table">
+    <thead>
+        <tr>
+            <td>
+                Home Team
+            </td>
+            <td>
+                Away Team
+            </td>
+            <td>
+                Sport Name
+            </td>
+            <td>
+                Date of Event
+            </td>
+            <td>
+                Sport Completed
+            </td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventDetails in Model)
+        {
+            <tr>
+                <td>
+                    @eventDetails.HomeTeamName
+                    <br />
+                    @eventDetails.event_Home_Team_Score
+                </td>
+                <td>
+                    @eventDetails.AwayTeamName
+                    <br />
+                    @eventDetails.event_Away_Team_Score
+                </td>
+                <td>
+                    @eventDetails.spt_Name
+                </td>
+                <td>
+                    @eventDetails.event_Date
+                </td>
+                <td>
+                    @eventDetails.event_Completion
+                </td>
+                <td>
+                    @Html.ActionLink("More Details", "MoreDetails", new { eventId = eventDetails.event_ID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

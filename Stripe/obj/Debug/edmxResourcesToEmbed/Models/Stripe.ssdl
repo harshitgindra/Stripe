@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="StripeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Stripe.dbo.Locations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Locations">
+    <Key>
+      <PropertyRef Name="lat" />
+      <PropertyRef Name="lon" />
+    </Key>
+    <Property Name="lat" Type="decimal" Precision="10" Scale="7" Nullable="false" />
+    <Property Name="lon" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
   <EntityType Name="Login">
     <Key>
       <PropertyRef Name="login_ID" />
@@ -87,7 +97,7 @@
     <Key>
       <PropertyRef Name="userProfile_ID" />
     </Key>
-    <Property Name="userProfile_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="userProfile_ID" Type="int" Nullable="false" />
     <Property Name="userProfile_First_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="userProfile_Last_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="userProfile_Email" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -304,8 +314,63 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
     <Parameter Name="owner_id" Type="int" Mode="In" />
   </Function>
-  <Function Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="SP_EVENT_DETAILS_DELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_EVENT_DETAILS_UPDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventDate" Type="date" Mode="In" />
+    <Parameter Name="eventTime" Type="time" Mode="In" />
+    <Parameter Name="eventFieldName" Type="nvarchar" Mode="In" />
+    <Parameter Name="sportId" Type="int" Mode="In" />
+    <Parameter Name="eventId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_EVENT_REFEREE_APPLY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+    <Parameter Name="refereeId" Type="int" Mode="In" />
     <Parameter Name="directorId" Type="int" Mode="In" />
+    <Parameter Name="refereeStatus" Type="nchar" Mode="In" />
+    <Parameter Name="refereeType" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_EVENT_REFEREE_APPROVE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+    <Parameter Name="directorId" Type="int" Mode="In" />
+    <Parameter Name="refereeStatus" Type="nchar" Mode="In" />
+    <Parameter Name="refereeType" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_EVENT_REFEREE_GIVE_RATINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+    <Parameter Name="directorId" Type="int" Mode="In" />
+    <Parameter Name="ratings" Type="int" Mode="In" />
+    <Parameter Name="refereeType" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+    <Parameter Name="refereeId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_EVENT_SCORES_UPDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="homeTeamScore" Type="int" Mode="In" />
+    <Parameter Name="awayTeamScore" Type="int" Mode="In" />
+    <Parameter Name="eventCompletion" Type="nchar" Mode="In" />
+    <Parameter Name="eventId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GET_ALL_EVENTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventCompletion" Type="nchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GET_ALL_SCHOOL_DETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SP_GET_APPLICATION_STATUS_BY_EVENTID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GET_APPLICATION_STATUS_BY_REFEREEID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="refereeId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GET_EVENT_BY_EVENTID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GET_EVENT_BY_SCHOOLID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="schId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GET_SCHOOL_FROM_SCHOOLID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="schoolId" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -324,6 +389,9 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
     <Parameter Name="owner_id" Type="int" Mode="In" />
     <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="directorId" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_SCHOOL_DETAILS_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="schName" Type="nvarchar" Mode="In" />
     <Parameter Name="schStreet" Type="nvarchar(max)" Mode="In" />
@@ -341,6 +409,11 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
     <Parameter Name="schZip" Type="nvarchar" Mode="In" />
     <Parameter Name="schLogo" Type="nvarchar(max)" Mode="In" />
     <Parameter Name="directorId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_UPDATE_REFEREE_STATUS_BY_EVENTID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="eventId" Type="int" Mode="In" />
+    <Parameter Name="refereeId" Type="int" Mode="In" />
+    <Parameter Name="refereeStatus" Type="nchar" Mode="In" />
   </Function>
   <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="SP_USER_PROFILE_GET" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -394,6 +467,12 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Profile" EntityType="Self.User_Profile" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Type" EntityType="Self.User_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Locations" EntityType="Self.Locations" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Locations].[lat] AS [lat], 
+    [Locations].[lon] AS [lon]
+    FROM [dbo].[Locations] AS [Locations]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="User_Profile_Referee" EntityType="Self.User_Profile_Referee" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [User_Profile_Referee].[ref_Game_Specialization_Type] AS [ref_Game_Specialization_Type], 

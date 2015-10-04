@@ -1,0 +1,13 @@
+﻿@model Stripe.Models.SP_GET_EVENT_BY_EVENTID_Result
+@{
+    ViewBag.Title = "MoreDetails";
+    Layout = "~/Views/Shared/_SchoolDirectorLayout.cshtml";
+}
+
+<h2>More Details</h2>
+
+
+@Html.ActionLink("Edit Event", "EditEvent", "Event", new { eventId = Model.event_ID }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Delete Event", "DeleteEvent", "Event", new { eventId = Model.event_ID }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Update Scores", "UpdateScores", "Event", new { eventId = Model.event_ID }, new { @class = "btn btn-primary" })
+@Html.ActionLink("View Applications", "ViewApplications", "Director", new { eventId = Model.event_ID }, new { @class = "btn btn-primary" })

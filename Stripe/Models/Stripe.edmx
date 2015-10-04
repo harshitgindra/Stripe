@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="StripeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Stripe.dbo.Locations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="lat" />
+            <PropertyRef Name="lon" />
+          </Key>
+          <Property Name="lat" Type="decimal" Precision="10" Scale="7" Nullable="false" />
+          <Property Name="lon" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="Login">
           <Key>
             <PropertyRef Name="login_ID" />
@@ -92,7 +102,7 @@
           <Key>
             <PropertyRef Name="userProfile_ID" />
           </Key>
-          <Property Name="userProfile_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="userProfile_ID" Type="int" Nullable="false" />
           <Property Name="userProfile_First_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="userProfile_Last_Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="userProfile_Email" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -309,8 +319,63 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
-        <Function Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="SP_EVENT_DETAILS_DELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_EVENT_DETAILS_UPDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventDate" Type="date" Mode="In" />
+          <Parameter Name="eventTime" Type="time" Mode="In" />
+          <Parameter Name="eventFieldName" Type="nvarchar" Mode="In" />
+          <Parameter Name="sportId" Type="int" Mode="In" />
+          <Parameter Name="eventId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_EVENT_REFEREE_APPLY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+          <Parameter Name="refereeId" Type="int" Mode="In" />
           <Parameter Name="directorId" Type="int" Mode="In" />
+          <Parameter Name="refereeStatus" Type="nchar" Mode="In" />
+          <Parameter Name="refereeType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_EVENT_REFEREE_APPROVE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+          <Parameter Name="directorId" Type="int" Mode="In" />
+          <Parameter Name="refereeStatus" Type="nchar" Mode="In" />
+          <Parameter Name="refereeType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_EVENT_REFEREE_GIVE_RATINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+          <Parameter Name="directorId" Type="int" Mode="In" />
+          <Parameter Name="ratings" Type="int" Mode="In" />
+          <Parameter Name="refereeType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+          <Parameter Name="refereeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_EVENT_SCORES_UPDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="homeTeamScore" Type="int" Mode="In" />
+          <Parameter Name="awayTeamScore" Type="int" Mode="In" />
+          <Parameter Name="eventCompletion" Type="nchar" Mode="In" />
+          <Parameter Name="eventId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_ALL_EVENTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventCompletion" Type="nchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_ALL_SCHOOL_DETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GET_APPLICATION_STATUS_BY_EVENTID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_APPLICATION_STATUS_BY_REFEREEID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="refereeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_EVENT_BY_EVENTID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_EVENT_BY_SCHOOLID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="schId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GET_SCHOOL_FROM_SCHOOLID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="schoolId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -329,6 +394,9 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <Parameter Name="owner_id" Type="int" Mode="In" />
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="directorId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_SCHOOL_DETAILS_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="schName" Type="nvarchar" Mode="In" />
           <Parameter Name="schStreet" Type="nvarchar(max)" Mode="In" />
@@ -346,6 +414,11 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <Parameter Name="schZip" Type="nvarchar" Mode="In" />
           <Parameter Name="schLogo" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="directorId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_UPDATE_REFEREE_STATUS_BY_EVENTID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventId" Type="int" Mode="In" />
+          <Parameter Name="refereeId" Type="int" Mode="In" />
+          <Parameter Name="refereeStatus" Type="nchar" Mode="In" />
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_USER_PROFILE_GET" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -399,6 +472,12 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Profile" EntityType="Self.User_Profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Type" EntityType="Self.User_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Locations].[lat] AS [lat], 
+    [Locations].[lon] AS [lon]
+    FROM [dbo].[Locations] AS [Locations]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="User_Profile_Referee" EntityType="Self.User_Profile_Referee" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [User_Profile_Referee].[ref_Game_Specialization_Type] AS [ref_Game_Specialization_Type], 
@@ -560,11 +639,21 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <NavigationProperty Name="Referee_Event_History" Relationship="Self.Referee_Event_History_Sport_Type_Referees_FK" FromRole="Sport_Type_Referees" ToRole="Referee_Event_History" />
           <NavigationProperty Name="Sport_Name" Relationship="Self.Sport_Type_Referee_Sport_Name_FK" FromRole="Sport_Type_Referees" ToRole="Sport_Name" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="User_Profile">
           <Key>
             <PropertyRef Name="userProfile_ID" />
           </Key>
-          <Property Name="userProfile_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userProfile_ID" Type="Int32" Nullable="false" />
           <Property Name="userProfile_First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="userProfile_Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="userProfile_Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
@@ -589,6 +678,14 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <Property Name="userType_ID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="userType_Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Logins" Relationship="Self.Login_User_Type_FK" FromRole="User_Type" ToRole="Login" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="lat" />
+            <PropertyRef Name="lon" />
+          </Key>
+          <Property Name="lat" Type="Decimal" Precision="10" Scale="7" Nullable="false" />
+          <Property Name="lon" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="User_Profile_Referee">
           <Key>
@@ -778,8 +875,10 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <EntitySet Name="Sport_Event" EntityType="Self.Sport_Event" />
           <EntitySet Name="Sport_Name" EntityType="Self.Sport_Name" />
           <EntitySet Name="Sport_Type_Referees" EntityType="Self.Sport_Type_Referees" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="User_Profile" EntityType="Self.User_Profile" />
           <EntitySet Name="User_Type" EntityType="Self.User_Type" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
           <EntitySet Name="User_Profile_Referee" EntityType="Self.User_Profile_Referee" />
           <AssociationSet Name="Login_User_Type_FK" Association="Self.Login_User_Type_FK">
             <End Role="User_Type" EntitySet="User_Type" />
@@ -837,7 +936,6 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
             <End Role="User_Profile" EntitySet="User_Profile" />
             <End Role="User_Profile_Referee" EntitySet="User_Profile_Referee" />
           </AssociationSet>
-          <EntitySet Name="sysdiagrams" EntityType="StripeModel.sysdiagram" />
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -854,6 +952,64 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_EVENT_DETAILS_DELETE">
+          <Parameter Name="eventId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_EVENT_DETAILS_UPDATE">
+            <Parameter Name="eventDate" Mode="In" Type="DateTime" />
+            <Parameter Name="eventTime" Mode="In" Type="Time" />
+            <Parameter Name="eventFieldName" Mode="In" Type="String" />
+            <Parameter Name="sportId" Mode="In" Type="Int32" />
+            <Parameter Name="eventId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_EVENT_REFEREE_APPLY">
+            <Parameter Name="eventId" Mode="In" Type="Int32" />
+            <Parameter Name="refereeId" Mode="In" Type="Int32" />
+            <Parameter Name="directorId" Mode="In" Type="Int32" />
+            <Parameter Name="refereeStatus" Mode="In" Type="String" />
+            <Parameter Name="refereeType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_EVENT_REFEREE_APPROVE">
+            <Parameter Name="eventId" Mode="In" Type="Int32" />
+            <Parameter Name="directorId" Mode="In" Type="Int32" />
+            <Parameter Name="refereeStatus" Mode="In" Type="String" />
+            <Parameter Name="refereeType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_EVENT_REFEREE_GIVE_RATINGS">
+            <Parameter Name="eventId" Mode="In" Type="Int32" />
+            <Parameter Name="directorId" Mode="In" Type="Int32" />
+            <Parameter Name="ratings" Mode="In" Type="Int32" />
+            <Parameter Name="refereeType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY" ReturnType="Collection(StripeModel.SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result)">
+            <Parameter Name="eventId" Mode="In" Type="Int32" />
+            <Parameter Name="refereeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_EVENT_SCORES_UPDATE">
+            <Parameter Name="homeTeamScore" Mode="In" Type="Int32" />
+            <Parameter Name="awayTeamScore" Mode="In" Type="Int32" />
+            <Parameter Name="eventCompletion" Mode="In" Type="String" />
+            <Parameter Name="eventId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_ALL_EVENTS" ReturnType="Collection(StripeModel.SP_GET_ALL_EVENTS_Result)">
+          <Parameter Name="eventCompletion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_ALL_SCHOOL_DETAILS" ReturnType="Collection(StripeModel.SP_GET_ALL_SCHOOL_DETAILS_Result)" />
+          <FunctionImport Name="SP_GET_APPLICATION_STATUS_BY_EVENTID" ReturnType="Collection(StripeModel.SP_GET_APPLICATION_STATUS_BY_EVENTID_Result)">
+          <Parameter Name="eventId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_APPLICATION_STATUS_BY_REFEREEID" ReturnType="Collection(StripeModel.SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result)">
+          <Parameter Name="refereeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_EVENT_BY_EVENTID" ReturnType="Collection(StripeModel.SP_GET_EVENT_BY_EVENTID_Result)">
+          <Parameter Name="eventId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_EVENT_BY_SCHOOLID" ReturnType="Collection(StripeModel.SP_GET_EVENT_BY_SCHOOLID_Result)">
+          <Parameter Name="schId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GET_SCHOOL_FROM_SCHOOLID" ReturnType="Collection(StripeModel.SP_GET_SCHOOL_FROM_SCHOOLID_Result)">
+          <Parameter Name="schoolId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(StripeModel.sp_helpdiagramdefinition_Result)">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -862,16 +1018,37 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_LOGIN" ReturnType="Collection(StripeModel.SP_LOGIN_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_renamediagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
-          <FunctionImport Name="SP_LOGIN" ReturnType="Collection(StripeModel.SP_LOGIN_Result)">
-            <Parameter Name="username" Mode="In" Type="String" />
-            <Parameter Name="password" Mode="In" Type="String" />
+          <FunctionImport Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
+          <Parameter Name="directorId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_SCHOOL_DETAILS_INSERT">
+            <Parameter Name="schName" Mode="In" Type="String" />
+            <Parameter Name="schStreet" Mode="In" Type="String" />
+            <Parameter Name="schCity" Mode="In" Type="String" />
+            <Parameter Name="schState" Mode="In" Type="String" />
+            <Parameter Name="schZip" Mode="In" Type="String" />
+            <Parameter Name="schLogo" Mode="In" Type="String" />
+            <Parameter Name="directorId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SCHOOL_DETAILS_UPDATE">
+            <Parameter Name="schName" Mode="In" Type="String" />
+            <Parameter Name="schStreet" Mode="In" Type="String" />
+            <Parameter Name="schCity" Mode="In" Type="String" />
+            <Parameter Name="schState" Mode="In" Type="String" />
+            <Parameter Name="schZip" Mode="In" Type="String" />
+            <Parameter Name="schLogo" Mode="In" Type="String" />
+            <Parameter Name="directorId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="SP_USER_PROFILE_GET" ReturnType="Collection(StripeModel.SP_USER_PROFILE_GET_Result)">
           <Parameter Name="loginid" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -912,41 +1089,112 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
             <Parameter Name="photo" Mode="In" Type="String" />
             <Parameter Name="backgroud_desc" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
-            <Parameter Name="directorId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_SCHOOL_DETAILS_UPDATE">
-            <Parameter Name="schName" Mode="In" Type="String" />
-            <Parameter Name="schStreet" Mode="In" Type="String" />
-            <Parameter Name="schCity" Mode="In" Type="String" />
-            <Parameter Name="schState" Mode="In" Type="String" />
-            <Parameter Name="schZip" Mode="In" Type="String" />
-            <Parameter Name="schLogo" Mode="In" Type="String" />
-            <Parameter Name="directorId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" ReturnType="Collection(StripeModel.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result)">
-            <Parameter Name="directorId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_SCHOOL_DETAILS_INSERT">
-            <Parameter Name="schName" Mode="In" Type="String" />
-            <Parameter Name="schStreet" Mode="In" Type="String" />
-            <Parameter Name="schCity" Mode="In" Type="String" />
-            <Parameter Name="schState" Mode="In" Type="String" />
-            <Parameter Name="schZip" Mode="In" Type="String" />
-            <Parameter Name="schLogo" Mode="In" Type="String" />
-            <Parameter Name="directorId" Mode="In" Type="Int32" />
+          <FunctionImport Name="SP_UPDATE_REFEREE_STATUS_BY_EVENTID">
+            <Parameter Name="eventId" Mode="In" Type="Int32" />
+            <Parameter Name="refereeId" Mode="In" Type="Int32" />
+            <Parameter Name="refereeStatus" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
+        <ComplexType Name="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result">
+          <Property Type="Int32" Name="refEventHistory_ID" Nullable="false" />
+          <Property Type="Int32" Name="refEventHistory_Total_Stars_Rating" Nullable="true" />
+          <Property Type="Int32" Name="Sport_Event_event_ID" Nullable="false" />
+          <Property Type="Int32" Name="User_Profile_Referee_Profile_ID" Nullable="false" />
+          <Property Type="Int32" Name="User_Profile_School_Director_Profile_ID" Nullable="false" />
+          <Property Type="String" Name="Referee_Status_refStatus_ID" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="Sport_Type_Referees_sptTypeRef_ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_ALL_EVENTS_Result">
+          <Property Type="Int32" Name="event_ID" Nullable="false" />
+          <Property Type="DateTime" Name="event_Date" Nullable="false" />
+          <Property Type="Time" Name="event_Time" Nullable="false" />
+          <Property Type="String" Name="event_School_Field_Name" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="event_Home_Team_Score" Nullable="true" />
+          <Property Type="Int32" Name="event_Away_Team_Score" Nullable="true" />
+          <Property Type="String" Name="event_Completion" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
+          <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+          <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+          <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_ALL_SCHOOL_DETAILS_Result">
+          <Property Type="Int32" Name="sch_ID" Nullable="false" />
+          <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="sch_Street" Nullable="true" />
+          <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="sch_Logo" Nullable="true" />
+          <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_APPLICATION_STATUS_BY_EVENTID_Result">
+          <Property Type="Int32" Name="Sport_Event_event_ID" Nullable="false" />
+          <Property Type="String" Name="sptTypeRef_Referee_Title" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="userProfile_ID" Nullable="false" />
+          <Property Type="String" Name="userProfile_First_Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="userProfile_Last_Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="userProfile_Photo" Nullable="true" />
+          <Property Type="String" Name="refStatus_ID" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="refStatus_Description" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+          <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+          <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result">
+          <Property Type="String" Name="sptTypeRef_Referee_Title" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="userProfile_ID" Nullable="false" />
+          <Property Type="String" Name="userProfile_First_Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="userProfile_Last_Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="userProfile_Photo" Nullable="true" />
+          <Property Type="String" Name="refStatus_Description" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+          <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+          <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_EVENT_BY_EVENTID_Result">
+          <Property Type="Int32" Name="event_ID" Nullable="false" />
+          <Property Type="DateTime" Name="event_Date" Nullable="false" />
+          <Property Type="Time" Name="event_Time" Nullable="false" />
+          <Property Type="String" Name="event_School_Field_Name" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="event_Home_Team_Score" Nullable="true" />
+          <Property Type="Int32" Name="event_Away_Team_Score" Nullable="true" />
+          <Property Type="String" Name="event_Completion" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
+          <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+          <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+          <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_EVENT_BY_SCHOOLID_Result">
+          <Property Type="Int32" Name="event_ID" Nullable="false" />
+          <Property Type="DateTime" Name="event_Date" Nullable="false" />
+          <Property Type="Int32" Name="event_Home_Team_Score" Nullable="true" />
+          <Property Type="Int32" Name="event_Away_Team_Score" Nullable="true" />
+          <Property Type="String" Name="event_Completion" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
+          <Property Type="String" Name="spt_Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HomeTeamName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="AwayTeamName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="School_Home_sch_ID" Nullable="false" />
+          <Property Type="Int32" Name="School_Away_sch_ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_GET_SCHOOL_FROM_SCHOOLID_Result">
+          <Property Type="Int32" Name="sch_ID" Nullable="false" />
+          <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="sch_Street" Nullable="true" />
+          <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="sch_Logo" Nullable="true" />
+          <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+        </ComplexType>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -966,6 +1214,16 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <Property Type="Boolean" Name="login_approvalStatus" Nullable="false" />
           <Property Type="String" Name="User_Type_userType_ID" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <ComplexType Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
+          <Property Type="Int32" Name="sch_ID" Nullable="false" />
+          <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="sch_Street" Nullable="true" />
+          <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="sch_Logo" Nullable="true" />
+          <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
+        </ComplexType>
         <ComplexType Name="SP_USER_PROFILE_GET_Result">
           <Property Type="Int32" Name="userProfile_ID" Nullable="false" />
           <Property Type="String" Name="userProfile_First_Name" Nullable="false" MaxLength="100" />
@@ -982,26 +1240,6 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <Property Type="Int32" Name="ref_Game_Specialization_Type" Nullable="false" />
           <Property Type="Int32" Name="User_Profile_userProfile_ID" Nullable="false" />
           <Property Type="Int32" Name="Sport_Name_spt_Sport_Name_ID" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
-          <Property Type="Int32" Name="sch_ID" Nullable="false" />
-          <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="sch_Street" Nullable="true" />
-          <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="sch_Logo" Nullable="true" />
-          <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
-          <Property Type="Int32" Name="sch_ID" Nullable="false" />
-          <Property Type="String" Name="sch_Name" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="sch_Street" Nullable="true" />
-          <Property Type="String" Name="sch_City" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="sch_State" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="sch_Zip" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="sch_Logo" Nullable="true" />
-          <Property Type="Int32" Name="User_Profile_Director_Profile_ID" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1089,6 +1327,17 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StripeModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="User_Profile">
             <EntityTypeMapping TypeName="StripeModel.User_Profile">
               <MappingFragment StoreEntitySet="User_Profile">
@@ -1115,6 +1364,14 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="StripeModel.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lon" ColumnName="lon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="User_Profile_Referee">
             <EntityTypeMapping TypeName="StripeModel.User_Profile_Referee">
               <MappingFragment StoreEntitySet="User_Profile_Referee">
@@ -1124,20 +1381,147 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="StripeModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="StripeModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="StripeModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="StripeModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="SP_EVENT_DETAILS_DELETE" FunctionName="StripeModel.Store.SP_EVENT_DETAILS_DELETE" />
+          <FunctionImportMapping FunctionImportName="SP_EVENT_DETAILS_UPDATE" FunctionName="StripeModel.Store.SP_EVENT_DETAILS_UPDATE" />
+          <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_APPLY" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_APPLY" />
+          <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_APPROVE" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_APPROVE" />
+          <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_GIVE_RATINGS" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_GIVE_RATINGS" />
+          <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_VERIFY_ELIGIBILITY">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result">
+                <ScalarProperty Name="refEventHistory_ID" ColumnName="refEventHistory_ID" />
+                <ScalarProperty Name="refEventHistory_Total_Stars_Rating" ColumnName="refEventHistory_Total_Stars_Rating" />
+                <ScalarProperty Name="Sport_Event_event_ID" ColumnName="Sport_Event_event_ID" />
+                <ScalarProperty Name="User_Profile_Referee_Profile_ID" ColumnName="User_Profile_Referee_Profile_ID" />
+                <ScalarProperty Name="User_Profile_School_Director_Profile_ID" ColumnName="User_Profile_School_Director_Profile_ID" />
+                <ScalarProperty Name="Referee_Status_refStatus_ID" ColumnName="Referee_Status_refStatus_ID" />
+                <ScalarProperty Name="Sport_Type_Referees_sptTypeRef_ID" ColumnName="Sport_Type_Referees_sptTypeRef_ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_EVENT_SCORES_UPDATE" FunctionName="StripeModel.Store.SP_EVENT_SCORES_UPDATE" />
+          <FunctionImportMapping FunctionImportName="SP_GET_ALL_EVENTS" FunctionName="StripeModel.Store.SP_GET_ALL_EVENTS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_GET_ALL_EVENTS_Result">
+                <ScalarProperty Name="event_ID" ColumnName="event_ID" />
+                <ScalarProperty Name="event_Date" ColumnName="event_Date" />
+                <ScalarProperty Name="event_Time" ColumnName="event_Time" />
+                <ScalarProperty Name="event_School_Field_Name" ColumnName="event_School_Field_Name" />
+                <ScalarProperty Name="event_Home_Team_Score" ColumnName="event_Home_Team_Score" />
+                <ScalarProperty Name="event_Away_Team_Score" ColumnName="event_Away_Team_Score" />
+                <ScalarProperty Name="event_Completion" ColumnName="event_Completion" />
+                <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+                <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+                <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+                <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+                <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+                <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_ALL_SCHOOL_DETAILS" FunctionName="StripeModel.Store.SP_GET_ALL_SCHOOL_DETAILS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_GET_ALL_SCHOOL_DETAILS_Result">
+                <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
+                <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
+                <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
+                <ScalarProperty Name="sch_City" ColumnName="sch_City" />
+                <ScalarProperty Name="sch_State" ColumnName="sch_State" />
+                <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
+                <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
+                <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_APPLICATION_STATUS_BY_EVENTID" FunctionName="StripeModel.Store.SP_GET_APPLICATION_STATUS_BY_EVENTID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_GET_APPLICATION_STATUS_BY_EVENTID_Result">
+                <ScalarProperty Name="Sport_Event_event_ID" ColumnName="Sport_Event_event_ID" />
+                <ScalarProperty Name="sptTypeRef_Referee_Title" ColumnName="sptTypeRef_Referee_Title" />
+                <ScalarProperty Name="userProfile_ID" ColumnName="userProfile_ID" />
+                <ScalarProperty Name="userProfile_First_Name" ColumnName="userProfile_First_Name" />
+                <ScalarProperty Name="userProfile_Last_Name" ColumnName="userProfile_Last_Name" />
+                <ScalarProperty Name="userProfile_Photo" ColumnName="userProfile_Photo" />
+                <ScalarProperty Name="refStatus_ID" ColumnName="refStatus_ID" />
+                <ScalarProperty Name="refStatus_Description" ColumnName="refStatus_Description" />
+                <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+                <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+                <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+                <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+                <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_APPLICATION_STATUS_BY_REFEREEID" FunctionName="StripeModel.Store.SP_GET_APPLICATION_STATUS_BY_REFEREEID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result">
+                <ScalarProperty Name="sptTypeRef_Referee_Title" ColumnName="sptTypeRef_Referee_Title" />
+                <ScalarProperty Name="userProfile_ID" ColumnName="userProfile_ID" />
+                <ScalarProperty Name="userProfile_First_Name" ColumnName="userProfile_First_Name" />
+                <ScalarProperty Name="userProfile_Last_Name" ColumnName="userProfile_Last_Name" />
+                <ScalarProperty Name="userProfile_Photo" ColumnName="userProfile_Photo" />
+                <ScalarProperty Name="refStatus_Description" ColumnName="refStatus_Description" />
+                <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+                <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+                <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+                <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+                <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_EVENT_BY_EVENTID" FunctionName="StripeModel.Store.SP_GET_EVENT_BY_EVENTID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_GET_EVENT_BY_EVENTID_Result">
+                <ScalarProperty Name="event_ID" ColumnName="event_ID" />
+                <ScalarProperty Name="event_Date" ColumnName="event_Date" />
+                <ScalarProperty Name="event_Time" ColumnName="event_Time" />
+                <ScalarProperty Name="event_School_Field_Name" ColumnName="event_School_Field_Name" />
+                <ScalarProperty Name="event_Home_Team_Score" ColumnName="event_Home_Team_Score" />
+                <ScalarProperty Name="event_Away_Team_Score" ColumnName="event_Away_Team_Score" />
+                <ScalarProperty Name="event_Completion" ColumnName="event_Completion" />
+                <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+                <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+                <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+                <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+                <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+                <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_EVENT_BY_SCHOOLID" FunctionName="StripeModel.Store.SP_GET_EVENT_BY_SCHOOLID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_GET_EVENT_BY_SCHOOLID_Result">
+                <ScalarProperty Name="event_ID" ColumnName="event_ID" />
+                <ScalarProperty Name="event_Date" ColumnName="event_Date" />
+                <ScalarProperty Name="event_Home_Team_Score" ColumnName="event_Home_Team_Score" />
+                <ScalarProperty Name="event_Away_Team_Score" ColumnName="event_Away_Team_Score" />
+                <ScalarProperty Name="event_Completion" ColumnName="event_Completion" />
+                <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+                <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+                <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+                <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+                <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+                <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GET_SCHOOL_FROM_SCHOOLID" FunctionName="StripeModel.Store.SP_GET_SCHOOL_FROM_SCHOOLID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_GET_SCHOOL_FROM_SCHOOLID_Result">
+                <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
+                <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
+                <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
+                <ScalarProperty Name="sch_City" ColumnName="sch_City" />
+                <ScalarProperty Name="sch_State" ColumnName="sch_State" />
+                <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
+                <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
+                <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="StripeModel.Store.sp_helpdiagramdefinition">
             <ResultMapping>
               <ComplexTypeMapping TypeName="StripeModel.sp_helpdiagramdefinition_Result">
@@ -1157,8 +1541,6 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="StripeModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="StripeModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="SP_LOGIN" FunctionName="StripeModel.Store.SP_LOGIN">
             <ResultMapping>
               <ComplexTypeMapping TypeName="StripeModel.SP_LOGIN_Result">
@@ -1171,6 +1553,24 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="StripeModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_FROM_DIRECTOR" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_FROM_DIRECTOR">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StripeModel.SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
+                <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
+                <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
+                <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
+                <ScalarProperty Name="sch_City" ColumnName="sch_City" />
+                <ScalarProperty Name="sch_State" ColumnName="sch_State" />
+                <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
+                <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
+                <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_INSERT" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_INSERT" />
+          <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_UPDATE" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_UPDATE" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="StripeModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_GET" FunctionName="StripeModel.Store.SP_USER_PROFILE_GET">
             <ResultMapping>
               <ComplexTypeMapping TypeName="StripeModel.SP_USER_PROFILE_GET_Result">
@@ -1196,22 +1596,7 @@ warning 6002: The table/view 'Stripe.dbo.User_Profile_Referee' does not have a p
           <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_REFEREE_INSERT" FunctionName="StripeModel.Store.SP_USER_PROFILE_REFEREE_INSERT" />
           <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_REFEREE_UPDATE" FunctionName="StripeModel.Store.SP_USER_PROFILE_REFEREE_UPDATE" />
           <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_UPDATE" FunctionName="StripeModel.Store.SP_USER_PROFILE_UPDATE" />
-          <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_UPDATE" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_UPDATE" />
-          <FunctionImportMapping FunctionImportName="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" FunctionName="StripeModel.Store.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="StripeModel.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
-                <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
-                <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
-                <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
-                <ScalarProperty Name="sch_City" ColumnName="sch_City" />
-                <ScalarProperty Name="sch_State" ColumnName="sch_State" />
-                <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
-                <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
-                <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_INSERT" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_INSERT" />
+          <FunctionImportMapping FunctionImportName="SP_UPDATE_REFEREE_STATUS_BY_EVENTID" FunctionName="StripeModel.Store.SP_UPDATE_REFEREE_STATUS_BY_EVENTID" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

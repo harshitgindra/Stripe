@@ -63,18 +63,22 @@ namespace Stripe.Controllers
             using (var context = new StripeEntities())
             {
                 int id = Convert.ToInt32(Session["loginid"]);
-                var schoolDetails = SchoolClass.getSchoolDetailsFromDirector(id, context);
+
+                SchoolClass schoolClass = new SchoolClass(context);
+                var schoolDetails = schoolClass.getSchoolDetailsFromDirector(id);
+
                 return View("SchoolDetails", schoolDetails);
             }
         }
 
         [HttpPost]
-        public ActionResult SchoolDetails(SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result schoolDetails)
+        public ActionResult SchoolDetails(SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result schoolDetails)
         {
             using (var context = new StripeEntities())
             {
-                SchoolClass schoolClass = new SchoolClass();
-                var schoolRecord = SchoolClass.getSchoolDetailsFromDirector(schoolDetails.User_Profile_Director_Profile_ID, context);
+                SchoolClass schoolClass = new SchoolClass(context);
+                var schoolRecord = schoolClass.getSchoolDetailsFromDirector(schoolDetails.User_Profile_Director_Profile_ID);
+                
                 if (schoolRecord == null)
                 {
                     schoolClass.InsertUpdateSchoolRecords(true, context, schoolDetails);
@@ -87,13 +91,14 @@ namespace Stripe.Controllers
             }
         }
 
-        public ActionResult Create()
+        public ActionResult CreateEvent()
         {
             using (var context = new StripeEntities())
             {
-                
+
                 ViewBag.SchoolList = SchoolClass.getSchoolList(context);
-                ViewBag.GameList = GetGameList.getGameTypeList(context);
+                GetGameList getGameList = new GetGameList(context);
+                ViewBag.GameList = getGameList.getGameTypeList();
             }
             return View();
         }
@@ -106,7 +111,10 @@ namespace Stripe.Controllers
                 using (var context = new StripeEntities())
                 {
                     int id = Convert.ToInt32(Session["loginid"]);
-                    sportEventDetails.School_Home_sch_ID = SchoolClass.getSchoolDetailsFromDirector(id, context).sch_ID;
+
+                    SchoolClass schoolRecord = new SchoolClass(context);
+                    sportEventDetails.School_Home_sch_ID = schoolRecord.getSchoolDetailsFromDirector(id).sch_ID;
+
                     if (sportEventDetails.School_Away_sch_ID == sportEventDetails.School_Home_sch_ID)
                     {
                         ModelState.AddModelError("", "Cannot select same away and home team");
@@ -114,6 +122,7 @@ namespace Stripe.Controllers
                     }
                     else
                     {
+                        sportEventDetails.event_Completion = "N";
                         context.Sport_Event.Add(sportEventDetails);
                         context.SaveChanges();
                         return RedirectToAction("Home");
@@ -124,6 +133,44 @@ namespace Stripe.Controllers
             {
                 return View("Error");
             }
-        } 
+        }
+
+        public ActionResult ViewEvents()
+        {
+            using (var context = new StripeEntities())
+            {
+                int id = Convert.ToInt32(Session["loginid"]);
+
+                SchoolClass schoolRecord = new SchoolClass(context);
+                var schoolDetails = schoolRecord.getSchoolDetailsFromDirector(id);
+
+                var eventList = context.SP_GET_EVENT_BY_SCHOOLID(schoolDetails.sch_ID).ToList();
+                return View(eventList);
+            }
+        }
+
+
+        public ActionResult MoreDetails(int eventId)
+        {
+            using (var context = new StripeEntities())
+            {
+                Event getEventDetails = new Event(context);
+                var eventDetails = getEventDetails.GetEventByEventId(eventId)
+                    .SingleOrDefault();
+
+                return View(eventDetails);
+            }
+        }
+
+        public ActionResult ViewApplications(int eventId)
+        {
+            using (var context = new StripeEntities())
+            {
+                var eventDetails = context.SP_GET_APPLICATION_STATUS_BY_EVENTID(eventId).ToList();
+
+                return View(eventDetails);
+            }
+        }
+
     }
 }

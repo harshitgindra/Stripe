@@ -81,6 +81,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="StripeModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="User_Profile">
       <EntityTypeMapping TypeName="StripeModel.User_Profile">
         <MappingFragment StoreEntitySet="User_Profile">
@@ -107,6 +118,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="StripeModel.Location">
+        <MappingFragment StoreEntitySet="Locations">
+          <ScalarProperty Name="lat" ColumnName="lat" />
+          <ScalarProperty Name="lon" ColumnName="lon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="User_Profile_Referee">
       <EntityTypeMapping TypeName="StripeModel.User_Profile_Referee">
         <MappingFragment StoreEntitySet="User_Profile_Referee">
@@ -116,20 +135,147 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="StripeModel.sysdiagram">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="definition" ColumnName="definition" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="StripeModel.Store.sp_alterdiagram" />
     <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="StripeModel.Store.sp_creatediagram" />
     <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="StripeModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="SP_EVENT_DETAILS_DELETE" FunctionName="StripeModel.Store.SP_EVENT_DETAILS_DELETE" />
+    <FunctionImportMapping FunctionImportName="SP_EVENT_DETAILS_UPDATE" FunctionName="StripeModel.Store.SP_EVENT_DETAILS_UPDATE" />
+    <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_APPLY" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_APPLY" />
+    <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_APPROVE" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_APPROVE" />
+    <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_GIVE_RATINGS" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_GIVE_RATINGS" />
+    <FunctionImportMapping FunctionImportName="SP_EVENT_REFEREE_VERIFY_ELIGIBILITY" FunctionName="StripeModel.Store.SP_EVENT_REFEREE_VERIFY_ELIGIBILITY">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_EVENT_REFEREE_VERIFY_ELIGIBILITY_Result">
+          <ScalarProperty Name="refEventHistory_ID" ColumnName="refEventHistory_ID" />
+          <ScalarProperty Name="refEventHistory_Total_Stars_Rating" ColumnName="refEventHistory_Total_Stars_Rating" />
+          <ScalarProperty Name="Sport_Event_event_ID" ColumnName="Sport_Event_event_ID" />
+          <ScalarProperty Name="User_Profile_Referee_Profile_ID" ColumnName="User_Profile_Referee_Profile_ID" />
+          <ScalarProperty Name="User_Profile_School_Director_Profile_ID" ColumnName="User_Profile_School_Director_Profile_ID" />
+          <ScalarProperty Name="Referee_Status_refStatus_ID" ColumnName="Referee_Status_refStatus_ID" />
+          <ScalarProperty Name="Sport_Type_Referees_sptTypeRef_ID" ColumnName="Sport_Type_Referees_sptTypeRef_ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_EVENT_SCORES_UPDATE" FunctionName="StripeModel.Store.SP_EVENT_SCORES_UPDATE" />
+    <FunctionImportMapping FunctionImportName="SP_GET_ALL_EVENTS" FunctionName="StripeModel.Store.SP_GET_ALL_EVENTS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_GET_ALL_EVENTS_Result">
+          <ScalarProperty Name="event_ID" ColumnName="event_ID" />
+          <ScalarProperty Name="event_Date" ColumnName="event_Date" />
+          <ScalarProperty Name="event_Time" ColumnName="event_Time" />
+          <ScalarProperty Name="event_School_Field_Name" ColumnName="event_School_Field_Name" />
+          <ScalarProperty Name="event_Home_Team_Score" ColumnName="event_Home_Team_Score" />
+          <ScalarProperty Name="event_Away_Team_Score" ColumnName="event_Away_Team_Score" />
+          <ScalarProperty Name="event_Completion" ColumnName="event_Completion" />
+          <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+          <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+          <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+          <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+          <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+          <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_GET_ALL_SCHOOL_DETAILS" FunctionName="StripeModel.Store.SP_GET_ALL_SCHOOL_DETAILS">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_GET_ALL_SCHOOL_DETAILS_Result">
+          <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
+          <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
+          <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
+          <ScalarProperty Name="sch_City" ColumnName="sch_City" />
+          <ScalarProperty Name="sch_State" ColumnName="sch_State" />
+          <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
+          <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
+          <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_GET_APPLICATION_STATUS_BY_EVENTID" FunctionName="StripeModel.Store.SP_GET_APPLICATION_STATUS_BY_EVENTID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_GET_APPLICATION_STATUS_BY_EVENTID_Result">
+          <ScalarProperty Name="Sport_Event_event_ID" ColumnName="Sport_Event_event_ID" />
+          <ScalarProperty Name="sptTypeRef_Referee_Title" ColumnName="sptTypeRef_Referee_Title" />
+          <ScalarProperty Name="userProfile_ID" ColumnName="userProfile_ID" />
+          <ScalarProperty Name="userProfile_First_Name" ColumnName="userProfile_First_Name" />
+          <ScalarProperty Name="userProfile_Last_Name" ColumnName="userProfile_Last_Name" />
+          <ScalarProperty Name="userProfile_Photo" ColumnName="userProfile_Photo" />
+          <ScalarProperty Name="refStatus_ID" ColumnName="refStatus_ID" />
+          <ScalarProperty Name="refStatus_Description" ColumnName="refStatus_Description" />
+          <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+          <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+          <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+          <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+          <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_GET_APPLICATION_STATUS_BY_REFEREEID" FunctionName="StripeModel.Store.SP_GET_APPLICATION_STATUS_BY_REFEREEID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_GET_APPLICATION_STATUS_BY_REFEREEID_Result">
+          <ScalarProperty Name="sptTypeRef_Referee_Title" ColumnName="sptTypeRef_Referee_Title" />
+          <ScalarProperty Name="userProfile_ID" ColumnName="userProfile_ID" />
+          <ScalarProperty Name="userProfile_First_Name" ColumnName="userProfile_First_Name" />
+          <ScalarProperty Name="userProfile_Last_Name" ColumnName="userProfile_Last_Name" />
+          <ScalarProperty Name="userProfile_Photo" ColumnName="userProfile_Photo" />
+          <ScalarProperty Name="refStatus_Description" ColumnName="refStatus_Description" />
+          <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+          <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+          <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+          <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+          <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_GET_EVENT_BY_EVENTID" FunctionName="StripeModel.Store.SP_GET_EVENT_BY_EVENTID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_GET_EVENT_BY_EVENTID_Result">
+          <ScalarProperty Name="event_ID" ColumnName="event_ID" />
+          <ScalarProperty Name="event_Date" ColumnName="event_Date" />
+          <ScalarProperty Name="event_Time" ColumnName="event_Time" />
+          <ScalarProperty Name="event_School_Field_Name" ColumnName="event_School_Field_Name" />
+          <ScalarProperty Name="event_Home_Team_Score" ColumnName="event_Home_Team_Score" />
+          <ScalarProperty Name="event_Away_Team_Score" ColumnName="event_Away_Team_Score" />
+          <ScalarProperty Name="event_Completion" ColumnName="event_Completion" />
+          <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+          <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+          <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+          <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+          <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+          <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_GET_EVENT_BY_SCHOOLID" FunctionName="StripeModel.Store.SP_GET_EVENT_BY_SCHOOLID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_GET_EVENT_BY_SCHOOLID_Result">
+          <ScalarProperty Name="event_ID" ColumnName="event_ID" />
+          <ScalarProperty Name="event_Date" ColumnName="event_Date" />
+          <ScalarProperty Name="event_Home_Team_Score" ColumnName="event_Home_Team_Score" />
+          <ScalarProperty Name="event_Away_Team_Score" ColumnName="event_Away_Team_Score" />
+          <ScalarProperty Name="event_Completion" ColumnName="event_Completion" />
+          <ScalarProperty Name="Sport_Name_spt_Sport_Name_ID" ColumnName="Sport_Name_spt_Sport_Name_ID" />
+          <ScalarProperty Name="spt_Name" ColumnName="spt_Name" />
+          <ScalarProperty Name="HomeTeamName" ColumnName="HomeTeamName" />
+          <ScalarProperty Name="AwayTeamName" ColumnName="AwayTeamName" />
+          <ScalarProperty Name="School_Home_sch_ID" ColumnName="School_Home_sch_ID" />
+          <ScalarProperty Name="School_Away_sch_ID" ColumnName="School_Away_sch_ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_GET_SCHOOL_FROM_SCHOOLID" FunctionName="StripeModel.Store.SP_GET_SCHOOL_FROM_SCHOOLID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_GET_SCHOOL_FROM_SCHOOLID_Result">
+          <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
+          <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
+          <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
+          <ScalarProperty Name="sch_City" ColumnName="sch_City" />
+          <ScalarProperty Name="sch_State" ColumnName="sch_State" />
+          <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
+          <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
+          <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="StripeModel.Store.sp_helpdiagramdefinition">
       <ResultMapping>
         <ComplexTypeMapping TypeName="StripeModel.sp_helpdiagramdefinition_Result">
@@ -149,8 +295,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="StripeModel.Store.sp_renamediagram" />
-    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="StripeModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="SP_LOGIN" FunctionName="StripeModel.Store.SP_LOGIN">
       <ResultMapping>
         <ComplexTypeMapping TypeName="StripeModel.SP_LOGIN_Result">
@@ -163,6 +307,24 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="StripeModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_FROM_DIRECTOR" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_FROM_DIRECTOR">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="StripeModel.SP_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
+          <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
+          <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
+          <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
+          <ScalarProperty Name="sch_City" ColumnName="sch_City" />
+          <ScalarProperty Name="sch_State" ColumnName="sch_State" />
+          <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
+          <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
+          <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_INSERT" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_INSERT" />
+    <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_UPDATE" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_UPDATE" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="StripeModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_GET" FunctionName="StripeModel.Store.SP_USER_PROFILE_GET">
       <ResultMapping>
         <ComplexTypeMapping TypeName="StripeModel.SP_USER_PROFILE_GET_Result">
@@ -188,21 +350,6 @@
     <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_REFEREE_INSERT" FunctionName="StripeModel.Store.SP_USER_PROFILE_REFEREE_INSERT" />
     <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_REFEREE_UPDATE" FunctionName="StripeModel.Store.SP_USER_PROFILE_REFEREE_UPDATE" />
     <FunctionImportMapping FunctionImportName="SP_USER_PROFILE_UPDATE" FunctionName="StripeModel.Store.SP_USER_PROFILE_UPDATE" />
-    <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_UPDATE" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_UPDATE" />
-    <FunctionImportMapping FunctionImportName="SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR" FunctionName="StripeModel.Store.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="StripeModel.SP_GET_SCHOOL_DETAILS_FROM_DIRECTOR_Result">
-          <ScalarProperty Name="sch_ID" ColumnName="sch_ID" />
-          <ScalarProperty Name="sch_Name" ColumnName="sch_Name" />
-          <ScalarProperty Name="sch_Street" ColumnName="sch_Street" />
-          <ScalarProperty Name="sch_City" ColumnName="sch_City" />
-          <ScalarProperty Name="sch_State" ColumnName="sch_State" />
-          <ScalarProperty Name="sch_Zip" ColumnName="sch_Zip" />
-          <ScalarProperty Name="sch_Logo" ColumnName="sch_Logo" />
-          <ScalarProperty Name="User_Profile_Director_Profile_ID" ColumnName="User_Profile_Director_Profile_ID" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_SCHOOL_DETAILS_INSERT" FunctionName="StripeModel.Store.SP_SCHOOL_DETAILS_INSERT" />
+    <FunctionImportMapping FunctionImportName="SP_UPDATE_REFEREE_STATUS_BY_EVENTID" FunctionName="StripeModel.Store.SP_UPDATE_REFEREE_STATUS_BY_EVENTID" />
   </EntityContainerMapping>
 </Mapping>

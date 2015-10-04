@@ -22,8 +22,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Profile", "Profile", "Referee")</li>
-                    <li>@Html.ActionLink("See Events", "EventList", "Events")</li>
-                    <li>@Html.ActionLink("Pending Requests", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("View Events", "AllEvents", "Referee")</li>
+                    <li>@Html.ActionLink("View All Application", "RequestStatus", "Referee")</li>
+                </ul>
+                <ul class="nav navbar-right">
+                    <li class="navbar-text" style="color:white">Hello @Html.Label(HttpContext.Current.User.Identity.Name)</li>
+                    <li>@Html.ActionLink("Sign Out", "SignOut", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

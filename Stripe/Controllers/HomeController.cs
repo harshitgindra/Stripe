@@ -7,13 +7,14 @@ using Stripe.Models;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
+using System.Web.Security;
 
 namespace Stripe.Controllers
 {
     public class HomeController : Controller
     {
 
-        
+
         public ActionResult Index()
         {
             using (var context = new StripeEntities())
@@ -44,10 +45,12 @@ namespace Stripe.Controllers
                 var loginCheck = context.SP_LOGIN(login.login_username, login.login_password).SingleOrDefault();
                 if (loginCheck == null)
                 {
-                    return View("Error");
+                    ModelState.AddModelError("", "Log in credentials invalid");
+                    return View(login);
                 }
                 else
                 {
+                    FormsAuthentication.SetAuthCookie(loginCheck.login_username, false);
                     Session["loginid"] = loginCheck.login_ID;
                     switch (loginCheck.User_Type_userType_ID)
                     {
@@ -75,13 +78,21 @@ namespace Stripe.Controllers
             {
                 EncryptDecrypt encrypt = new EncryptDecrypt();
                 login.login_random_string = encrypt.Encrypt(login.login_username, "r0b1nr0y");
+
                 context.Logins.Add(login);
                 context.SaveChanges();
-                return View();
+
+                return View("SignUpConfirmation");
             }
         }
 
-        
+        public ActionResult SignOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
         public ActionResult About()
         {

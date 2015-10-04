@@ -8,7 +8,14 @@ namespace Stripe.Models
 {
     public class GetGameList
     {
-        public static List<SelectListItem> getGameTypeList(StripeEntities context)
+        private StripeEntities context { get; set; }
+
+        public GetGameList(StripeEntities context)
+        {
+            this.context = context;
+        }
+
+        public List<SelectListItem> getGameTypeList()
         {
             List<SelectListItem> GameNameList = new List<SelectListItem>();
             GameNameList.Add(new SelectListItem() { Text = "Please select Game", Value = "default" });
@@ -20,7 +27,7 @@ namespace Stripe.Models
             return GameNameList;
         }
 
-        public static List<SelectListItem> getRefTypeList(StripeEntities context, int GameID)
+        public List<SelectListItem> getRefTypeList(int GameID)
         {
             List<SelectListItem> RefList = new List<SelectListItem>();            
             var result = context.Sport_Type_Referees.Where(sportID=>sportID.Sport_Name_spt_Sport_Name_ID==GameID).ToList();
